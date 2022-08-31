@@ -6,7 +6,7 @@
 #    By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 09:51:12 by cdapurif          #+#    #+#              #
-#    Updated: 2022/08/25 15:20:41 by cdapurif         ###   ########.fr        #
+#    Updated: 2022/08/31 13:26:17 by cdapurif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,42 +14,44 @@ CXX = c++
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-############################ STACK PART #############################
-STACK_SRCS =	main.cpp
+DIR = containers/stack
 
-STACK_OBJS =	$(addprefix containers/stack/, $(STACK_SRCS:.cpp=.o))
-#####################################################################
+BINARY = $(wildcard *_*)
 
-############################ VECTOR PART ############################
-#####################################################################
+GET_SRCS = $(wildcard $(DIR)/*.cpp)
 
-############################# MAP PART ##############################
-#####################################################################
+FT_OBJS	= $(patsubst $(DIR)/%.cpp,$(DIR)/ft_%.o, $(GET_SRCS))
+STD_OBJS = $(patsubst $(DIR)/%.cpp,$(DIR)/std_%.o, $(GET_SRCS))
 
 all: stack
 
-################# STACK #################
+############################# STACK RULES #############################
 stack: ft_stack std_stack
 
-ft_stack: NAMESPACE = 0
-ft_stack: NS = ft_
-ft_stack: $(STACK_OBJS)
-#	$(CXX) $(CXXFLAGS) $(STACK_OBJS) -o ft_stack
-	$(CXX) $(CXXFLAGS) $(addprefix $(dir $<)$(NS), $(notdir $<)) -o $@
+ft_stack: $(FT_OBJS)
+	$(CXX) $< -o $@
 
-std_stack: NAMESPACE = 1
-std_stack: NS = std_
-std_stack: $(STACK_OBJS)
-	$(CXX) $(CXXFLAGS) $(STACK_OBJS) -o std_stack
+std_stack: $(STD_OBJS)
+	$(CXX) $< -o $@
+#######################################################################
 
-%.o:%.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $(addprefix $(dir $@)$(NS), $(notdir $@)) -D NSP=$(NAMESPACE)
+ft_%.o:%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@ -D NSP=0
+
+std_%.o:%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@ -D NSP=1
+
+show:
+	@echo FT_OBJS: $(FT_OBJS)
+	@echo STD_OBJS: $(STD_OBJS)
+	@echo BINARY: $(BINARY)
 
 clean:
-	$(RM) ./containers/stack/*.o
+	$(RM) $(FT_OBJS)
+	$(RM) $(STD_OBJS)
 
 fclean: clean
-	$(RM) ft_* std_*
+	$(RM) $(BINARY)
 
 re: fclean all
 
