@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 09:55:43 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/08/30 13:05:15 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/08/31 15:17:45 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,28 @@
 int main(void)
 {
     NAMESPACE::stack<int>   test;
+    NAMESPACE::stack<int>   test2;
 
     std::cout << Green << " **************** Tests for namespace " << PRINT << " **************** " << Reset << std::endl;
-    std::cout << test.empty() << std::endl;
+    
+    std::cout << Green << "METHODS" << Reset << std::endl;
+    std::cout << "test for empty method: " << test.empty() << std::endl;
+    std::cout << "test for size method: " << test.size() << std::endl;
+    std::cout << "test for push: **push 42 in test**" << std::endl;
     test.push(42);
-    NAMESPACE::stack<int>   test2;
-    std::cout << (test2 < test) << std::endl;
-    std::cout << PRINT << std::endl;
+    std::cout << "test for size method: " << test.size() << std::endl;
+    std::cout << "test for top method: " << test.top() << std::endl;
+    std::cout << "test for pop method" << std::endl;
+    test.pop();
+    std::cout << "test for size method: " << test.size() << std::endl << std::endl;
+    
+    
+    std::cout << Green << "COMPARISON OPERATORS" << Reset << std::endl;
+    std::cout << "test for test2 less than test (both empty): "<< (test2 < test) << std::endl;
+    std::cout << "test for test2 less or equal than test (both empty): "<< (test2 <= test) << std::endl;
+    std::cout << "test for test2 more than test (both empty): "<< (test2 > test) << std::endl;
+    std::cout << "test for test2 more or equal than test (both empty): "<< (test2 >= test) << std::endl;
+    std::cout << "test for test2 equal test (both empty): "<< (test2 == test) << std::endl;
+    std::cout << "test for test2 different than test (both empty): "<< (test2 != test) << std::endl;
     return (0);
 }
