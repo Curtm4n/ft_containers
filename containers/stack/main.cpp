@@ -6,12 +6,12 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 09:55:43 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/08/31 15:17:45 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:39:05 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stack.hpp"
-#include "Colors.hpp"
+#include "../../utils/Colors.hpp"
 #include <stack>
 
 #if NSP
@@ -29,7 +29,8 @@ int main(void)
     NAMESPACE::stack<int>   test2;
 
     std::cout << Green << " **************** Tests for namespace " << PRINT << " **************** " << Reset << std::endl;
-    
+    std::cout << "NOTE: for boolean functions 1 means true and 0 false" << std::endl << std::endl;
+
     std::cout << Green << "METHODS" << Reset << std::endl;
     std::cout << "test for empty method: " << test.empty() << std::endl;
     std::cout << "test for size method: " << test.size() << std::endl;
