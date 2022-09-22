@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 16:09:27 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/09/21 18:22:23 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:14:25 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ namespace ft
         struct is_integral<char> : public true_type{};
     template<>
         struct is_integral<bool> : public true_type{};
+
+    template<bool B, class T = void>
+        struct enable_if {};
+ 
+    template<class T>
+        struct enable_if<true, T> { typedef T type; };
 }
 
 #endif
