@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 16:09:27 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/09/27 16:37:36 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:51:00 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ namespace ft
             static const T                  value = v;
             typedef T                       value_type;
             typedef integral_constant<T,v>  type;
-            operator T()                    { return v; }
+            operator T() const              { return v; }
         };
 
     typedef integral_constant<bool,true>    true_type;
