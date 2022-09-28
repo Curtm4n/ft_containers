@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/09/15 11:32:05 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:31:15 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ namespace ft
             typedef Allocator                               allocator_type;
             typedef typename Allocator::pointer             pointer;
             typedef typename Allocator::const_pointer       const_pointer;
-            typedef std::reverse_iterator<iterator>         reverse_iterator;
-            typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
+            //typedef std::reverse_iterator<iterator>         reverse_iterator;
+            //typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
 
             //CONSTRUCTORS/COPY/DESTRUCTORS
             explicit    vector(const Allocator& = Allocator()); //Default constructor
             explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator()); //Parametric constructor
             template <class InputIterator>
-                vector(InputIterator first, InputIterator last, const Allocator& = Alocator()); //Range Constructor
+                vector(InputIterator first, InputIterator last, const Allocator& = Allocator()); //Range Constructor
             vector(const vector<T, Allocator>& x); //Copy constructor
             ~vector(); //Destructor
             vector<T, Allocator>&   operator=(const vector<T, Allocator>& x); //Assignation operator
