@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/11 17:21:09 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:58:36 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <memory>
 # include <iterator>
 # include <cstddef>
+# include <stdexcept>
 
 namespace ft
 {
@@ -41,17 +42,17 @@ namespace ft
             //typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
             //CONSTRUCTORS/COPY/DESTRUCTORS
-            explicit    vector(const Allocator& = Allocator()); //Default constructor
-            explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator()); //Parametric constructor
+            explicit    vector(const Allocator& = Allocator()); //Default constructor                                       //DONE
+            explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator()); //Parametric constructor //DONE
             template <class InputIterator>
                 vector(InputIterator first, InputIterator last, const Allocator& = Allocator()); //Range Constructor
-            vector(const vector<T, Allocator>& x); //Copy constructor
-            ~vector(); //Destructor
-            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x); //Assignation operator
+            vector(const vector<T, Allocator>& x); //Copy constructor                                                       //DONE
+            ~vector(); //Destructor                                                                                         //DONE
+            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x); //Assignation operator                        //TO FINISH (maybe require accessors)
             template <class InputIterator>
                 void    assign(InputIterator first, InputIterator last);
             void    assign(size_type n, const T& u);
-            allocator_type  get_allocator() const;
+            allocator_type  get_allocator() const;                                                                          //DONE
 
             //ITERATORS
             //iterator                  begin();
@@ -64,22 +65,22 @@ namespace ft
             //const_reverse_iterator    rend() const;
 
             //CAPACITY
-            size_type   size() const;
-            size_type   max_size() const;
+            size_type   size() const;                       //DONE
+            size_type   max_size() const;                   //DONE
             void        resize(size_type sz, T c = T());
-            size_type   capacity() const;
-            bool        empty() const;
+            size_type   capacity() const;                   //DONE
+            bool        empty() const;                      //DONE
             void        reserve(size_type n);
 
             //ELEMENT ACCESS
-            reference       operator[](size_type n);
-            const_reference operator[](size_type n) const;
-            const_reference at(size_type n) const;
-            reference       at(size_type n);
-            reference       front();
-            const_reference front() const;
-            reference       back();
-            const_reference back() const;
+            reference       operator[](size_type n);        //DONE
+            const_reference operator[](size_type n) const;  //DONE
+            const_reference at(size_type n) const;          //DONE
+            reference       at(size_type n);                //DONE
+            reference       front();                        //DONE
+            const_reference front() const;                  //DONE
+            reference       back();                         //DONE
+            const_reference back() const;                   //DONE
 
             //MODIFIERS
             void        push_back(const T& x);
@@ -117,11 +118,36 @@ namespace ft
             _alloc.construct(_array + i, value);
     }
 
+    template <class T, class Allocator>
+    vector<T, Allocator>::vector(const vector<T, Allocator>& x)
+    {
+        _array = 0;
+        *this = x;
+    }
+
+    template <class T, class Allocator>
+    vector<T, Allocator>&   vector<T, Allocator>::operator=(const vector<T, Allocator>& x)
+    {
+        if (this != &x)
+        {
+            std::cout << "Assignation here" << std::endl;
+        }
+        return (*this);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::allocator_type  vector<T, Allocator>::get_allocator() const
+    {
+        return (_alloc);
+    }
+
 //DESTRUCTOR
 
     template <class T, class Allocator>
-    vector<T,Allocator>::~vector()
+    vector<T, Allocator>::~vector()
     {
+        for (size_type i = 0; i < _capacity; i++)
+            _alloc.destroy(_array + i);
         _alloc.deallocate(_array, _capacity);
     }
 
@@ -134,9 +160,75 @@ namespace ft
     }
 
     template <class T, class Allocator>
+    typename vector<T, Allocator>::size_type   vector<T, Allocator>::max_size() const
+    {
+        return (_alloc.max_size());
+    }
+
+    template <class T, class Allocator>
     typename vector<T, Allocator>::size_type   vector<T, Allocator>::capacity() const
     {
         return (_capacity);
+    }
+
+    template <class T, class Allocator>
+    bool    vector<T, Allocator>::empty() const
+    {
+        return (_size == 0 ? true : false);
+    }
+
+//ELEMENT ACCESS
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reference    vector<T, Allocator>::operator[](size_type n)
+    {
+        return (_array[n]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reference    vector<T, Allocator>::operator[](size_type n) const
+    {
+        return (_array[n]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reference    vector<T, Allocator>::at(size_type n) const
+    {
+        if (n >= _size)
+            throw (std::out_of_range("Out of range"));
+        return (_array[n]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reference    vector<T, Allocator>::at(size_type n)
+    {
+        if (n >= _size)
+            throw (std::out_of_range("Out of range"));
+        return (_array[n]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reference    vector<T, Allocator>::front()
+    {
+        return (_array[0]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reference    vector<T, Allocator>::front() const
+    {
+        return (_array[0]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reference    vector<T, Allocator>::back()
+    {
+        return (_array[_size - 1]);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reference    vector<T, Allocator>::back() const
+    {
+        return (_array[_size - 1]);
     }
 
 //OPERATORS
