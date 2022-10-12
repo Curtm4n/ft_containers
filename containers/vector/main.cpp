@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/12 16:04:22 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/12 21:25:08 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ int main(void)
     vector1.at(9) = 123;
     std::cout << "front element of vector1: " << vector1.front() << std::endl;
     std::cout << "back element of vector1: " << vector1.back() << std::endl;
+    std::cout << "using pop_back on vector1" << std::endl;
+    vector1.pop_back();
+    std::cout << "size of vector1: " << vector1.size() << std::endl;
+    std::cout << "capacity of vector1: " << vector1.capacity() << std::endl;
+    std::cout << "back element of vector1: " << vector1.back() << std::endl;
+    std::cout << "using clear on vector1" << std::endl;
+    vector1.clear();
+    std::cout << "size of vector1: " << vector1.size() << std::endl;
+    std::cout << "capacity of vector1: " << vector1.capacity() << std::endl;
+    std::cout << "Now we assign 15 times the value 465 to vector1" << std::endl;
+    vector1.assign(static_cast<size_t>(15), 465);
+    std::cout << "size of vector1: " << vector1.size() << std::endl;
+    std::cout << "capacity of vector1: " << vector1.capacity() << std::endl;
+    std::cout << "vector1 index 12: " << vector1[12] << std::endl;
 
     return (0);
 }
