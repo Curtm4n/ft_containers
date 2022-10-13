@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/12 21:51:50 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:37:43 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ namespace ft
     vector<T, Allocator>::vector(const vector<T, Allocator>& x)
     {
         _array = 0;
+        _size = 0;
+        _capacity = 0;
         *this = x;
     }
 
@@ -134,7 +136,15 @@ namespace ft
     {
         if (this != &x)
         {
-            std::cout << "Assignation here" << std::endl;
+            _alloc = x.get_allocator();
+            for (size_type i = 0; i < _size; i++)
+                _alloc.destroy(_array + i);
+            _alloc.deallocate(_array, _capacity);
+            _size = x.size();
+            _capacity = x.capacity();
+            _array = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < _size; i++)
+                _alloc.construct(_array + i, x[i]);
         }
         return (*this);
     }
@@ -144,7 +154,7 @@ namespace ft
     template <class T, class Allocator>
     vector<T, Allocator>::~vector()
     {
-        for (size_type i = 0; i < _capacity; i++)
+        for (size_type i = 0; i < _size; i++)
             _alloc.destroy(_array + i);
         _alloc.deallocate(_array, _capacity);
     }
@@ -161,6 +171,39 @@ namespace ft
     typename vector<T, Allocator>::size_type   vector<T, Allocator>::max_size() const
     {
         return (_alloc.max_size());
+    }
+
+    template <class T, class Allocator>
+    void    vector<T, Allocator>::resize(size_type sz, T c)
+    {
+        T   *tmp;
+
+        if (sz < _size)
+        {
+            for (size_type i = sz; i < _size; i++)
+                _alloc.destroy(_array + i);
+        }
+        else if (sz > _size)
+        {
+            if (sz <= _capacity)
+            {
+                for (size_type i = _size; i < sz; i++)
+                    _alloc.construct(_array + i, c);
+            }
+            else
+            {
+                tmp = _alloc.allocate(sz);
+                for (size_type i = 0; i < _size; i++)
+                    _alloc.construct(tmp + i, _array[i]);
+                for (size_type i = _size; i < sz; i++)
+                    _alloc.construct(tmp + i, c);
+                this->clear();
+                _alloc.deallocate(_array, _capacity);
+                _array = tmp;
+                _capacity = sz;
+            }
+        }
+        _size = sz;
     }
 
     template <class T, class Allocator>

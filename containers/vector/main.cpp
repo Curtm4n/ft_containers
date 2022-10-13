@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/12 21:25:08 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:37:04 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ int main(void)
     std::cout << "size of vector1: " << vector1.size() << std::endl;
     std::cout << "capacity of vector1: " << vector1.capacity() << std::endl;
     std::cout << "vector1 index 12: " << vector1[12] << std::endl;
+
+    std::cout << std::endl << Green << "Tests for resize method" << Reset << std::endl;
+    NAMESPACE::vector<NAMESPACE::vector<int> >  vector2(static_cast<size_t>(5), NAMESPACE::vector<int>(static_cast<size_t>(10), 255));
+    std::cout << "Now we resize our vector2 of size 5 to size 10" << std::endl;
+    vector2.resize(static_cast<size_t>(10), NAMESPACE::vector<int>(static_cast<size_t>(3), 88));
+    std::cout << "size of vector2: " << vector2.size() << std::endl;
+    std::cout << "capacity of vector2: " << vector2.capacity() << std::endl;
 
     return (0);
 }
