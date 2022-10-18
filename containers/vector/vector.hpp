@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/13 15:37:43 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:45:52 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ namespace ft
             //CAPACITY
             size_type   size() const;                       //DONE
             size_type   max_size() const;                   //DONE
-            void        resize(size_type sz, T c = T());
+            void        resize(size_type sz, T c = T());    //DONE
             size_type   capacity() const;                   //DONE
             bool        empty() const;                      //DONE
             void        reserve(size_type n);
@@ -109,25 +109,22 @@ namespace ft
 //CONSTRUCTORS
 
     template <class T, class Allocator>
-    vector<T, Allocator>::vector(const Allocator& alloc) : _size(0), _capacity(0), _alloc(alloc)
+    vector<T, Allocator>::vector(const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc) {}
+
+    template <class T, class Allocator>
+    vector<T, Allocator>::vector(size_type n, const T& value, const Allocator& alloc) : _array(0), _size(n), _capacity(n), _alloc(alloc)
     {
-        _array = _alloc.allocate(_capacity);
+        if (_capacity)
+        {
+            _array = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < n; i++)
+                _alloc.construct(_array + i, value);
+        }
     }
 
     template <class T, class Allocator>
-    vector<T, Allocator>::vector(size_type n, const T& value, const Allocator& alloc) : _size(n), _capacity(n), _alloc(alloc)
+    vector<T, Allocator>::vector(const vector<T, Allocator>& x) : _array(0), _size(0), _capacity(0)
     {
-        _array = _alloc.allocate(_capacity);
-        for (size_type i = 0; i < n; i++)
-            _alloc.construct(_array + i, value);
-    }
-
-    template <class T, class Allocator>
-    vector<T, Allocator>::vector(const vector<T, Allocator>& x)
-    {
-        _array = 0;
-        _size = 0;
-        _capacity = 0;
         *this = x;
     }
 
@@ -140,11 +137,15 @@ namespace ft
             for (size_type i = 0; i < _size; i++)
                 _alloc.destroy(_array + i);
             _alloc.deallocate(_array, _capacity);
+            _array = 0;
             _size = x.size();
             _capacity = x.capacity();
-            _array = _alloc.allocate(_capacity);
-            for (size_type i = 0; i < _size; i++)
-                _alloc.construct(_array + i, x[i]);
+            if (_capacity)
+            {
+                _array = _alloc.allocate(_capacity);
+                for (size_type i = 0; i < _size; i++)
+                    _alloc.construct(_array + i, x[i]);
+            }
         }
         return (*this);
     }
@@ -216,6 +217,12 @@ namespace ft
     bool    vector<T, Allocator>::empty() const
     {
         return (_size == 0 ? true : false);
+    }
+
+    template <class T, class Allocator>
+    void    vector<T, Allocator>::reserve(size_type n)
+    {
+        //TODO
     }
 
 //ELEMENT ACCESS
