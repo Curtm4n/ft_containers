@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/18 18:45:52 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/19 17:04:09 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft
             template <class InputIterator>
                 vector(InputIterator first, InputIterator last, const Allocator& = Allocator());    //Range Constructor
             vector(const vector<T, Allocator>& x);                                                  //Copy constructor          //DONE
-            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x);                       //Assignation operator      //TO FINISH (maybe require accessors)
+            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x);                       //Assignation operator      //DONE
 
             //DESTRUCTOR
             ~vector();
@@ -68,7 +68,7 @@ namespace ft
             void        resize(size_type sz, T c = T());    //DONE
             size_type   capacity() const;                   //DONE
             bool        empty() const;                      //DONE
-            void        reserve(size_type n);
+            void        reserve(size_type n);               //DONE
 
             //ELEMENT ACCESS
             reference       operator[](size_type n);        //DONE
@@ -177,7 +177,7 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::resize(size_type sz, T c)
     {
-        T   *tmp;
+        value_type  *tmp;
 
         if (sz < _size)
         {
@@ -222,7 +222,22 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::reserve(size_type n)
     {
-        //TODO
+        value_type  *tmp;
+
+        if (n > _capacity)
+        {
+            if (n > this->max_size())
+                throw (std::length_error("Length error"));
+            tmp = _alloc.allocate(n);
+            for (size_type i = 0; i < _size; i++)
+            {
+                _alloc.construct(tmp + i, _array[i]);
+                _alloc.destroy(_array + i);
+            }
+            _alloc.deallocate(_array, _capacity);
+            _capacity = n;
+            _array = tmp;
+        }
     }
 
 //ELEMENT ACCESS
@@ -309,6 +324,25 @@ namespace ft
     {
         _alloc.destroy(_array + _size - 1);
         _size--;
+    }
+
+    template <class T, class Allocator>
+    void    vector<T, Allocator>::swap(vector<T, Allocator>& x)
+    {
+        value_type  *tmp;
+        size_type   val;
+
+        tmp = _array;
+        _array = x._array;
+        x._array = tmp;
+
+         val = _size;
+        _size = x._size;
+        x._size = val;
+
+        val = _capacity;
+        _capacity = x._capacity;
+        x._capacity = val;
     }
 
     template <class T, class Allocator>

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/18 18:17:41 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/19 15:47:10 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,30 @@ int main(void)
     std::cout << "vector1 index 12: " << vector1[12] << std::endl;
 
     std::cout << std::endl << Green << "Tests for resize method" << Reset << std::endl;
-    NAMESPACE::vector<int>  vector2(static_cast<size_t>(0));
-    //NAMESPACE::vector<NAMESPACE::vector<int> >  vector2(static_cast<size_t>(5), NAMESPACE::vector<int>(static_cast<size_t>(10), 255));
-    //std::cout << "Now we resize our vector2 of size 5 to size 10" << std::endl;
-    //vector2.resize(static_cast<size_t>(10), NAMESPACE::vector<int>(static_cast<size_t>(3), 88));
-    //std::cout << "size of vector2: " << vector2.size() << std::endl;
-    //std::cout << "capacity of vector2: " << vector2.capacity() << std::endl;
+    NAMESPACE::vector<NAMESPACE::vector<int> >  vector2(static_cast<size_t>(5), NAMESPACE::vector<int>(static_cast<size_t>(10), 255));
+    std::cout << "Now we resize our vector2 of size 5 to size 10" << std::endl;
+    vector2.resize(static_cast<size_t>(10), NAMESPACE::vector<int>(static_cast<size_t>(3), 88));
+    std::cout << "size of vector2: " << vector2.size() << std::endl;
+    std::cout << "capacity of vector2: " << vector2.capacity() << std::endl;
+
+    std::cout << std::endl << Green << "Tests for reserve method" << Reset << std::endl;
+    NAMESPACE::vector<int>  vector3(static_cast<size_t>(5), 42);
+    std::cout << "Now we reserve a capacity of 10 for our vector3 (of capacity 5)" << std::endl;
+    vector3.reserve(10);
+    std::cout << "size of vector3: " << vector3.size() << std::endl;
+    std::cout << "capacity of vector3: " << vector3.capacity() << std::endl;
+
+    std::cout << std::endl << Green << "Tests for swap method" << Reset << std::endl;
+    std::cout << "second element, size and capacity of vector1 before swap: ";
+    std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
+    std::cout << "second element, size and capacity of vector3 before swap: ";
+    std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
+    std::cout << "Swapping vector1 and vector3" << std::endl;
+    vector1.swap(vector3);
+    std::cout << "second element, size and capacity of vector1 after swap: ";
+    std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
+    std::cout << "second element, size and capacity of vector3 after swap: ";
+    std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
 
     return (0);
 }
