@@ -6,7 +6,7 @@
 #    By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 09:51:12 by cdapurif          #+#    #+#              #
-#    Updated: 2022/09/28 19:00:42 by cdapurif         ###   ########.fr        #
+#    Updated: 2022/10/26 17:00:05 by cdapurif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,12 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 DIR =	containers/stack \
 		containers/vector
 
-BINARY = $(wildcard *_*)
+BINARY =	ft_stack \
+			std_stack \
+			ft_vector \
+			std_vector
 
-SRCS = $(foreach dir,$(DIR),$(wildcard $(dir)/*.cpp))
+SRCS = $(foreach dir,$(DIR),$(dir)/main.cpp)
 
 FT_OBJS	= $(SRCS:main.cpp=ft_main.o)
 STD_OBJS = $(SRCS:main.cpp=std_main.o)
