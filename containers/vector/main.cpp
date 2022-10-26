@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/19 15:47:10 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:31:24 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,19 @@ int main(void)
     std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
     std::cout << "second element, size and capacity of vector3 after swap: ";
     std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
+
+    std::cout << std::endl << Green << "Tests for push_back method" << Reset << std::endl;
+    vector1.reserve(11);
+    std::cout << "size and capacity of vector1 before push_back: ";
+    std::cout << vector1.size() << " " << vector1.capacity() << std::endl;
+    for (int i = 1; i < 8; i++)
+    {
+        vector1.push_back(i);
+        std::cout << vector1[vector1.size() - 1] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "size and capacity of vector1 after push_back: ";
+    std::cout << vector1.size() << " " << vector1.capacity() << std::endl;
 
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/19 17:04:09 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/10/26 13:32:45 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ namespace ft
                 //void    insert(iterator position, InputIterator first, InputIterator last);
             //iterator  erase(iterator position);
             //iterator  erase(iterator first, iterator last);
-            void        swap(vector<T, Allocator>&);
+            void        swap(vector<T, Allocator>&);                        //DONE
             void        clear();                                            //DONE
 
         private:
@@ -317,6 +317,15 @@ namespace ft
         for (size_type i = 0; i < n; i++)
             _alloc.construct(_array + i, u);
         _size = n;
+    }
+
+    template <class T, class Allocator>
+    void    vector<T, Allocator>::push_back(const T& x)
+    {
+        if (_size == _capacity)
+            this->reserve(2 * _capacity);
+        _alloc.construct(_array + _size, x);
+        _size++;
     }
 
     template <class T, class Allocator>
