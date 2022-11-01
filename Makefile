@@ -6,9 +6,11 @@
 #    By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 09:51:12 by cdapurif          #+#    #+#              #
-#    Updated: 2022/10/26 17:00:05 by cdapurif         ###   ########.fr        #
+#    Updated: 2022/11/01 17:08:27 by cdapurif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME = containers
 
 CXX = c++
 
@@ -27,7 +29,9 @@ SRCS = $(foreach dir,$(DIR),$(dir)/main.cpp)
 FT_OBJS	= $(SRCS:main.cpp=ft_main.o)
 STD_OBJS = $(SRCS:main.cpp=std_main.o)
 
-all: stack vector
+all: $(NAME)
+
+$(NAME): stack vector
 
 ############################# STACK RULES #############################
 stack: ft_stack std_stack

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/26 13:32:45 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:52:09 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ namespace ft
 
         private:
 
-            value_type      *_array;
+            pointer         _array;
             size_type       _size;
             size_type       _capacity;
             allocator_type  _alloc;
@@ -177,7 +177,7 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::resize(size_type sz, T c)
     {
-        value_type  *tmp;
+        pointer tmp;
 
         if (sz < _size)
         {
@@ -189,11 +189,14 @@ namespace ft
             if (sz <= _capacity)
             {
                 for (size_type i = _size; i < sz; i++)
+                {
                     _alloc.construct(_array + i, c);
+                    _size++;                                //INCREASE SIZE EVERY TIME A CONSTRUCTION IS SUCCESSFUL IN CASE OF EXCEPTION
+                }
             }
             else
             {
-                tmp = _alloc.allocate(sz);
+                tmp = _alloc.allocate(sz);                  //NEED TO CHECK EXCEPTION SAFETY
                 for (size_type i = 0; i < _size; i++)
                     _alloc.construct(tmp + i, _array[i]);
                 for (size_type i = _size; i < sz; i++)
@@ -222,14 +225,14 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::reserve(size_type n)
     {
-        value_type  *tmp;
+        pointer tmp;
 
         if (n > _capacity)
         {
             if (n > this->max_size())
                 throw (std::length_error("Length error"));
             tmp = _alloc.allocate(n);
-            for (size_type i = 0; i < _size; i++)
+            for (size_type i = 0; i < _size; i++)               //CHECK EXCEPTION SAFETY (maybe a try/catch block surrounding the for loop, and separate destroy from construct in case of an exception)
             {
                 _alloc.construct(tmp + i, _array[i]);
                 _alloc.destroy(_array + i);
@@ -307,16 +310,22 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::assign(size_type n, const T& u)
     {
+        pointer tmp;
+
+        if (n > _capacity)
+            tmp = _alloc.allocate(n);               //WE ALLOCATE FIRST FOR EXCEPTION SAFETY (if bad_alloc is thrown, the vector doesn't change and is left in a valid state)
         this->clear();
         if (n > _capacity)
         {
             _alloc.deallocate(_array, _capacity);
             _capacity = n;
-            _array = _alloc.allocate(_capacity);
+            _array = tmp;
         }
         for (size_type i = 0; i < n; i++)
+        {
             _alloc.construct(_array + i, u);
-        _size = n;
+            _size++;
+        }
     }
 
     template <class T, class Allocator>
