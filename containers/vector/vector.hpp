@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 15:46:27 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 20:14:53 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,7 +413,10 @@ namespace ft
 //SPECIALIZED ALGORITHMS
 
     template <class T, class Allocator>
-        void    swap(vector<T, Allocator>& x, vector<T, Allocator>& y);
+        void    swap(vector<T, Allocator>& x, vector<T, Allocator>& y)
+        {
+            x.swap(y);
+        }
 }
 
 #endif

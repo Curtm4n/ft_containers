@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 12:37:02 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 20:17:09 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,18 @@ int main(void)
     vector4.push_back(42);
     std::cout << "size and capacity of vector4 after push_back: ";
     std::cout << vector4.size() << " " << vector4.capacity() << std::endl;*/
+
+    std::cout << Green << "Test for the specialized version of swap on vector2 and vector3" << Reset << std::endl;
+    std::cout << "second element, size and capacity of vector1 before swap: ";
+    std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
+    std::cout << "second element, size and capacity of vector3 before swap: ";
+    std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
+    std::cout << "Swapping vector1 and vector3" << std::endl;
+    NAMESPACE::swap(vector1, vector3);
+    std::cout << "second element, size and capacity of vector1 after swap: ";
+    std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
+    std::cout << "second element, size and capacity of vector3 after swap: ";
+    std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
 
     return (0);
 }
