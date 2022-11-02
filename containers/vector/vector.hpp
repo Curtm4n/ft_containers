@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 15:00:43 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:33:29 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ namespace ft
         {
             if (sz > _capacity)
                 this->reserve(sz);
+            if (_capacity < sz)                                 //MAY SEEMS REDUNDANT BUT CHECK IF THE CALL TO RESERVE ACTUALLY WORKED AND CHANGED THE CAPACITY SINCE THIS METHOD CATCH SOME EXCEPTIONS
+                return ;
             for (size_type i = _size; i < sz; i++)
             {
                 _alloc.construct(_array + i, c);
@@ -225,7 +227,7 @@ namespace ft
                 throw (std::length_error("Length error"));
             tmp = _alloc.allocate(n);
             cptr = 0;
-            try                                                 //HERE I USED A TRY/CATCH BLOCK TO RELEASE MEMORY IN CASE ONE OF THE ELEMENT CONSTRUCTION DIDN'T WORKED
+            try                                                 //HERE I USED A TRY/CATCH BLOCK TO RELEASE MEMORY IN CASE ONE OF THE ELEMENT CONSTRUCTION FAILED
             {
                 for (size_type i = 0; i < _size; i++)
                 {
