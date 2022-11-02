@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 12:42:47 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:00:43 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,16 @@ namespace ft
     template <class T, class Allocator>
     vector<T, Allocator>::vector(const vector<T, Allocator>& x) : _array(0), _size(0), _capacity(0), _alloc(x.get_allocator())
     {
-        *this = x; //TODO
+        if (x.capacity())
+        {
+            _array = _alloc.allocate(x.capacity());
+            _capacity = x.capacity();
+            for (size_type i = 0; i < x.size(); i++)
+            {
+                _alloc.construct(_array + i, x[i]);
+                _size++;
+            }
+        }
     }
 
     template <class T, class Allocator>
@@ -137,19 +146,9 @@ namespace ft
     {
         if (this != &x)
         {
-            _alloc = x.get_allocator();
-            for (size_type i = 0; i < _size; i++)
-                _alloc.destroy(_array + i);
-            _alloc.deallocate(_array, _capacity);
-            _array = 0;
-            _size = x.size();
-            _capacity = x.capacity();
-            if (_capacity)
-            {
-                _array = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _size; i++)
-                    _alloc.construct(_array + i, x[i]);
-            }
+            vector<T, Allocator>    tmp(x);
+
+            this->swap(tmp);
         }
         return (*this);
     }
@@ -184,37 +183,22 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::resize(size_type sz, T c)
     {
-        pointer tmp;
-
         if (sz < _size)
         {
             for (size_type i = sz; i < _size; i++)
                 _alloc.destroy(_array + i);
+            _size = sz;
         }
         else if (sz > _size)
         {
-            if (sz <= _capacity)
+            if (sz > _capacity)
+                this->reserve(sz);
+            for (size_type i = _size; i < sz; i++)
             {
-                for (size_type i = _size; i < sz; i++)
-                {
-                    _alloc.construct(_array + i, c);
-                    _size++;                                //INCREASE SIZE EVERY TIME A CONSTRUCTION IS SUCCESSFUL IN CASE OF EXCEPTION
-                }
-            }
-            else
-            {
-                tmp = _alloc.allocate(sz);                  //NEED TO CHECK EXCEPTION SAFETY
-                for (size_type i = 0; i < _size; i++)
-                    _alloc.construct(tmp + i, _array[i]);
-                for (size_type i = _size; i < sz; i++)
-                    _alloc.construct(tmp + i, c);
-                this->clear();
-                _alloc.deallocate(_array, _capacity);
-                _array = tmp;
-                _capacity = sz;
+                _alloc.construct(_array + i, c);
+                _size++;
             }
         }
-        _size = sz;
     }
 
     template <class T, class Allocator>
@@ -232,19 +216,34 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::reserve(size_type n)
     {
-        pointer tmp;
+        pointer     tmp;
+        size_type   cptr;
 
         if (n > _capacity)
         {
             if (n > this->max_size())
                 throw (std::length_error("Length error"));
             tmp = _alloc.allocate(n);
-            for (size_type i = 0; i < _size; i++)               //CHECK EXCEPTION SAFETY (maybe a try/catch block surrounding the for loop, and separate destroy from construct in case of an exception)
+            cptr = 0;
+            try                                                 //HERE I USED A TRY/CATCH BLOCK TO RELEASE MEMORY IN CASE ONE OF THE ELEMENT CONSTRUCTION DIDN'T WORKED
             {
-                _alloc.construct(tmp + i, _array[i]);
-                _alloc.destroy(_array + i);
+                for (size_type i = 0; i < _size; i++)
+                {
+                    _alloc.construct(tmp + i, _array[i]);
+                    cptr++;
+                }
             }
-            _alloc.deallocate(_array, _capacity);
+            catch(const std::exception& e)
+            {
+                for (size_type i = 0; i < cptr; i++)
+                    _alloc.destroy(tmp + i);
+                _alloc.deallocate(tmp, n);
+                return ;
+            }
+            for (size_type i = 0; i < _size; i++)
+                _alloc.destroy(_array + i);
+            if (_capacity)
+                _alloc.deallocate(_array, _capacity);
             _capacity = n;
             _array = tmp;
         }
@@ -320,7 +319,7 @@ namespace ft
         pointer tmp;
 
         if (n > _capacity)
-            tmp = _alloc.allocate(n);               //WE ALLOCATE FIRST FOR EXCEPTION SAFETY (if bad_alloc is thrown, the vector doesn't change and is left in a valid state)
+            tmp = _alloc.allocate(n);
         this->clear();
         if (n > _capacity)
         {
@@ -341,7 +340,7 @@ namespace ft
     {
         size_type   newCap;
 
-        if (_size == _capacity)                             //NOW WORK PROPERLY IF CAPACITY WAS 0 OR IF IT WAS EQUAL TO MAX_SIZE (or if 2 times capacity was superior to max_size)
+        if (_size == _capacity)
         {
             if (_capacity == this->max_size())
                 return ;
