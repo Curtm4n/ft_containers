@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/01 16:52:09 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:42:47 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,24 @@ namespace ft
     vector<T, Allocator>::vector(const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc) {}
 
     template <class T, class Allocator>
-    vector<T, Allocator>::vector(size_type n, const T& value, const Allocator& alloc) : _array(0), _size(n), _capacity(n), _alloc(alloc)
+    vector<T, Allocator>::vector(size_type n, const T& value, const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc)
     {
-        if (_capacity)
+        if (n)
         {
-            _array = _alloc.allocate(_capacity);
+            _array = _alloc.allocate(n);
+            _capacity = n;
             for (size_type i = 0; i < n; i++)
+            {
                 _alloc.construct(_array + i, value);
+                _size++;
+            }
         }
     }
 
     template <class T, class Allocator>
-    vector<T, Allocator>::vector(const vector<T, Allocator>& x) : _array(0), _size(0), _capacity(0)
+    vector<T, Allocator>::vector(const vector<T, Allocator>& x) : _array(0), _size(0), _capacity(0), _alloc(x.get_allocator())
     {
-        *this = x;
+        *this = x; //TODO
     }
 
     template <class T, class Allocator>
@@ -155,9 +159,12 @@ namespace ft
     template <class T, class Allocator>
     vector<T, Allocator>::~vector()
     {
-        for (size_type i = 0; i < _size; i++)
-            _alloc.destroy(_array + i);
-        _alloc.deallocate(_array, _capacity);
+        if (_capacity)
+        {
+            for (size_type i = 0; i < _size; i++)
+                _alloc.destroy(_array + i);
+            _alloc.deallocate(_array, _capacity);
+        }
     }
 
 //CAPACITY
@@ -317,7 +324,8 @@ namespace ft
         this->clear();
         if (n > _capacity)
         {
-            _alloc.deallocate(_array, _capacity);
+            if (_capacity)
+                _alloc.deallocate(_array, _capacity);
             _capacity = n;
             _array = tmp;
         }
@@ -331,8 +339,19 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::push_back(const T& x)
     {
-        if (_size == _capacity)
-            this->reserve(2 * _capacity);
+        size_type   newCap;
+
+        if (_size == _capacity)                             //NOW WORK PROPERLY IF CAPACITY WAS 0 OR IF IT WAS EQUAL TO MAX_SIZE (or if 2 times capacity was superior to max_size)
+        {
+            if (_capacity == this->max_size())
+                return ;
+            newCap = 2 * _capacity;
+            if (newCap == 0)
+                newCap = 1;
+            else if (newCap > this->max_size())
+                newCap = this->max_size();
+            this->reserve(newCap);
+        }
         _alloc.construct(_array + _size, x);
         _size++;
     }

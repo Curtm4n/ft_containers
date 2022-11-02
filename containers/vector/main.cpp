@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/26 13:31:24 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:37:02 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,31 @@ int main(void)
     std::cout << std::endl;
     std::cout << "size and capacity of vector1 after push_back: ";
     std::cout << vector1.size() << " " << vector1.capacity() << std::endl;
+
+    std::cout << std::endl << Green << "Tests for push_back method on empty vector" << Reset << std::endl;
+    NAMESPACE::vector<int>  vector4;
+    std::cout << "size and capacity of vector4 before push_back: ";
+    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;
+    vector4.push_back(42);
+    std::cout << "size and capacity of vector4 after push_back: ";
+    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;
+
+    /*std::cout << std::endl << Green << "Tests for push_back method on max_size vector" << Reset << std::endl;
+    std::cout << "max_size for vector4 <int>: " << vector4.max_size() << std::endl;
+    vector4.clear();
+    try
+    {
+        vector4.reserve(vector4.max_size() - 1);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "size and capacity of vector4 before push_back: ";
+    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;
+    vector4.push_back(42);
+    std::cout << "size and capacity of vector4 after push_back: ";
+    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;*/
 
     return (0);
 }
