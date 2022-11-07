@@ -6,12 +6,14 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 20:14:53 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:26:31 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
+
+# include "ItVector.hpp"
 
 # include <iostream>
 # include <memory>
@@ -30,8 +32,8 @@ namespace ft
             //TYPES
             typedef typename Allocator::reference           reference;
             typedef typename Allocator::const_reference     const_reference;
-            //typedef NEED IMPLEMENTATION                   iterator;
-            //typedef NEED IMPLEMENTATION                   const_iterator;
+            typedef ItVector<T>                             iterator;
+            typedef ItVector<const T>                       const_iterator;
             typedef std::size_t                             size_type;
             typedef std::ptrdiff_t                          difference_type;
             typedef T                                       value_type;
