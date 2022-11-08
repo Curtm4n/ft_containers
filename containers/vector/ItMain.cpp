@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:48:32 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/07 12:25:14 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:48:51 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 
 int main(void)
 {
-    std::cout << "Hello world" << std::endl;
+    ft::vector<int>  vec1(static_cast<std::size_t>(10), 42);
     return (0);
 }

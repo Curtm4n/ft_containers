@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/07 12:26:31 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:23:35 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ namespace ft
             template <class InputIterator>
                 void    assign(InputIterator first, InputIterator last);
             void        assign(size_type n, const T& u);                    //DONE
-            void        push_back(const T& x);
+            void        push_back(const T& x);                              //DONE
             void        pop_back();                                         //DONE
             //iterator  insert(iterator position, const T& x);
             //void      insert(iterator position, size_type n, const T& x);

@@ -6,12 +6,14 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:36:57 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/07 16:16:18 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:38:18 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
+
+# include <cstddef>
 
 namespace ft
 {
