@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/02 20:17:09 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:17:32 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,9 @@ int main(void)
     std::cout << vector1[1] << " " << vector1.size() << " " << vector1.capacity() << std::endl;
     std::cout << "second element, size and capacity of vector3 after swap: ";
     std::cout << vector3[1] << " " << vector3.size() << " " << vector3.capacity() << std::endl;
+
+    NAMESPACE::vector<int>  vector5(10, 42);
+    std::cout << vector5[5] << std::endl;
 
     return (0);
 }

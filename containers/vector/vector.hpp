@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/08 14:00:23 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:15:32 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include "ItVector.hpp"
+# include "../../utils/type_traits.hpp"
 
 # include <iostream>
 # include <memory>
@@ -44,12 +45,12 @@ namespace ft
             //typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
             //CONSTRUCTORS
-            explicit    vector(const Allocator& = Allocator());                                     //Default constructor       //DONE
-            explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator());  //Parametric constructor    //DONE
+            explicit    vector(const Allocator& = Allocator());                                                                                                 //Default constructor       //DONE
+            explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator());                                                              //Parametric constructor    //DONE
             template <class InputIterator>
-                vector(InputIterator first, InputIterator last, const Allocator& = Allocator());    //Range Constructor
-            vector(const vector<T, Allocator>& x);                                                  //Copy constructor          //DONE
-            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x);                       //Assignation operator      //DONE
+                vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& = Allocator());  //Range Constructor
+            vector(const vector<T, Allocator>& x);                                                                                                              //Copy constructor          //DONE
+            vector<T, Allocator>&   operator=(const vector<T, Allocator>& x);                                                                                   //Assignation operator      //DONE
 
             //DESTRUCTOR
             ~vector();
