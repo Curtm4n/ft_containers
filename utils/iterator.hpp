@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:36:57 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/08 13:38:18 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/09 00:56:24 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
         typedef Distance    difference_type;
         typedef Pointer     pointer;
         typedef Reference   reference;
-    }
+    };
 
     template <class Iterator>
     class iterator_traits

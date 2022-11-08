@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/08 18:15:32 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/09 00:53:24 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ namespace ft
             ~vector();
 
             //ITERATORS
-            iterator                  begin();
-            const_iterator            begin() const;
-            iterator                  end();
-            const_iterator            end() const;
+            iterator                  begin();          //DONE
+            const_iterator            begin() const;    //DONE
+            iterator                  end();            //DONE
+            const_iterator            end() const;      //DONE
             //reverse_iterator          rbegin();
             //const_reverse_iterator    rbegin() const;
             //reverse_iterator          rend();
