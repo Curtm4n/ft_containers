@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:36:57 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/09 00:56:24 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/09 01:38:49 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
     };
 
     template <class Iterator>
-    class iterator_traits
+    struct iterator_traits
     {
         typedef typename Iterator::difference_type      difference_type;
         typedef typename Iterator::value_type           value_type;
@@ -38,7 +38,7 @@ namespace ft
     };
 
     template <class T>
-    class iterator_traits<T*>
+    struct iterator_traits<T*>
     {
         typedef std::ptrdiff_t                     difference_type;
         typedef T                                  value_type;
@@ -48,13 +48,27 @@ namespace ft
     };
 
     template <class T>
-    class iterator_traits<const T*>
+    struct iterator_traits<const T*>
     {
         typedef std::ptrdiff_t                     difference_type;
         typedef T                                  value_type;
         typedef const T*                           pointer;
         typedef const T&                           reference;
         typedef std::random_access_iterator_tag    iterator_category;
+    };
+
+    template <class Iterator>
+    class reverse_iterator
+    {
+        
+        public:
+
+            typedef Iterator                                                iterator_type;
+            typedef typename iterator_traits<Iterator>::iterator_category   iterator_category;
+            typedef typename iterator_traits<Iterator>::value_type          value_type;
+            typedef typename iterator_traits<Iterator>::difference_type     difference_type;
+            typedef typename iterator_traits<Iterator>::pointer             pointer;
+            typedef typename iterator_traits<Iterator>::reference           reference;
     };
 }
 

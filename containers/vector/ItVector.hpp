@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 10:50:11 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/09 00:41:24 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/09 01:35:27 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ namespace ft
         
         public:
 
-            typedef T           value_type;
-            typedef T*          pointer;
-            typedef T&          reference;
-            typedef const T&    const_reference;
-
-            typedef std::ptrdiff_t  difference_type;
+            typedef T                               value_type;
+            typedef T*                              pointer;
+            typedef T&                              reference;
+            typedef std::ptrdiff_t                  difference_type;
+            typedef std::random_access_iterator_tag iterator_category;
 
             ItVector(pointer ptr = pointer()) : _ptr(ptr)                   {}
             ItVector(const ItVector<T>& x) : _ptr(x._ptr)                   {}
@@ -62,94 +61,94 @@ namespace ft
     };
 
     template <class T>
-        bool operator==(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() == y.getPointer());
-        }
+    bool operator==(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() == y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator==(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() == y.getPointer());
-        }
+    bool operator==(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() == y.getPointer());
+    }
 
     template <class T>
-        bool operator!=(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() != y.getPointer());
-        }
+    bool operator!=(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() != y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator!=(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() != y.getPointer());
-        }
+    bool operator!=(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() != y.getPointer());
+    }
 
     template <class T>
-        bool operator<(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() < y.getPointer());
-        }
+    bool operator<(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() < y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator<(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() < y.getPointer());
-        }
+    bool operator<(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() < y.getPointer());
+    }
 
     template <class T>
-        bool operator>(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() > y.getPointer());
-        }
+    bool operator>(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() > y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator>(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() > y.getPointer());
-        }
+    bool operator>(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() > y.getPointer());
+    }
 
     template <class T>
-        bool operator<=(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() <= y.getPointer());
-        }
+    bool operator<=(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() <= y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator<=(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() <= y.getPointer());
-        }
+    bool operator<=(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() <= y.getPointer());
+    }
 
     template <class T>
-        bool operator>=(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() >= y.getPointer());
-        }
+    bool operator>=(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() >= y.getPointer());
+    }
 
     template <class T, class U>
-        bool operator>=(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() >= y.getPointer());
-        }
+    bool operator>=(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() >= y.getPointer());
+    }
 
     template <class T>
-        ItVector<T> operator+(typename ItVector<T>::difference_type x, const ItVector<T>& y)
-        {
-            return (x + y.getPointer());
-        }
+    ItVector<T> operator+(typename ItVector<T>::difference_type x, const ItVector<T>& y)
+    {
+        return (x + y.getPointer());
+    }
 
     template <class T>
-        typename ItVector<T>::difference_type operator-(const ItVector<T>& x, const ItVector<T>& y)
-        {
-            return (x.getPointer() - y.getPointer());
-        }
+    typename ItVector<T>::difference_type operator-(const ItVector<T>& x, const ItVector<T>& y)
+    {
+        return (x.getPointer() - y.getPointer());
+    }
 
     template <class T, class U>
-        typename ItVector<T>::difference_type operator-(const ItVector<T>& x, const ItVector<U>& y)
-        {
-            return (x.getPointer() - y.getPointer());
-        }
+    typename ItVector<T>::difference_type operator-(const ItVector<T>& x, const ItVector<U>& y)
+    {
+        return (x.getPointer() - y.getPointer());
+    }
 
     template <class T>
     std::ostream &  operator<<(std::ostream & o, const ItVector<T>& x)
