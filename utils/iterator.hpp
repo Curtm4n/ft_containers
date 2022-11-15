@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:36:57 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/09 01:38:49 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:35:14 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ namespace ft
             typedef typename iterator_traits<Iterator>::difference_type     difference_type;
             typedef typename iterator_traits<Iterator>::pointer             pointer;
             typedef typename iterator_traits<Iterator>::reference           reference;
+
+        private:
+
+            iterator_type   _it;
+
+        public:
+
+            reverse_iterator() : _it(iterator_type())                                       {}
+            explicit reverse_iterator(iterator_type it) : _it(it)                           {}
+            template <class Iter>
+                reverse_iterator(const reverse_iterator<Iter>& rev_it) : _it(rev_it._it)    {}  //TO CHECK
+
+            iterator_type   base() const    { return (_it); }
     };
 }
 
