@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/15 19:40:24 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:27:27 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ namespace ft
             typedef Allocator                               allocator_type;
             typedef typename Allocator::pointer             pointer;
             typedef typename Allocator::const_pointer       const_pointer;
-            typedef reverse_iterator<iterator>              reverse_iterator;
-            typedef reverse_iterator<const_iterator>        const_reverse_iterator;
+            typedef ft::reverse_iterator<iterator>          reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
             //CONSTRUCTORS
             explicit    vector(const Allocator& = Allocator());                                                                                                 //Default constructor       //DONE
@@ -61,10 +61,10 @@ namespace ft
             const_iterator            begin() const;    //DONE
             iterator                  end();            //DONE
             const_iterator            end() const;      //DONE
-            reverse_iterator          rbegin();
-            const_reverse_iterator    rbegin() const;
-            reverse_iterator          rend();
-            const_reverse_iterator    rend() const;
+            reverse_iterator          rbegin();         //DONE
+            const_reverse_iterator    rbegin() const;   //DONE
+            reverse_iterator          rend();           //DONE
+            const_reverse_iterator    rend() const;     //DONE
 
             //CAPACITY
             size_type   size() const;                       //DONE
@@ -199,25 +199,25 @@ namespace ft
     template <class T, class Allocator>
     typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rbegin()
     {
-        return (_array + _size);
+        return (reverse_iterator(this->end()));
     }
 
     template <class T, class Allocator>
     typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rbegin() const
     {
-        return (_array + _size);
+        return (reverse_iterator(this->end()));
     }
     
     template <class T, class Allocator>
     typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rend()
     {
-        return (_array);
+        return (reverse_iterator(this->begin()));
     }
     
     template <class T, class Allocator>
     typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rend() const
     {
-        return (_array);
+        return (reverse_iterator(this->begin()));
     }
 
 //CAPACITY
