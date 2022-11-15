@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/09 00:53:24 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:40:24 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include "ItVector.hpp"
+# include "../../utils/iterator.hpp"
 # include "../../utils/type_traits.hpp"
 
 # include <iostream>
@@ -41,8 +42,8 @@ namespace ft
             typedef Allocator                               allocator_type;
             typedef typename Allocator::pointer             pointer;
             typedef typename Allocator::const_pointer       const_pointer;
-            //typedef std::reverse_iterator<iterator>       reverse_iterator;
-            //typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+            typedef reverse_iterator<iterator>              reverse_iterator;
+            typedef reverse_iterator<const_iterator>        const_reverse_iterator;
 
             //CONSTRUCTORS
             explicit    vector(const Allocator& = Allocator());                                                                                                 //Default constructor       //DONE
@@ -60,10 +61,10 @@ namespace ft
             const_iterator            begin() const;    //DONE
             iterator                  end();            //DONE
             const_iterator            end() const;      //DONE
-            //reverse_iterator          rbegin();
-            //const_reverse_iterator    rbegin() const;
-            //reverse_iterator          rend();
-            //const_reverse_iterator    rend() const;
+            reverse_iterator          rbegin();
+            const_reverse_iterator    rbegin() const;
+            reverse_iterator          rend();
+            const_reverse_iterator    rend() const;
 
             //CAPACITY
             size_type   size() const;                       //DONE
@@ -193,6 +194,30 @@ namespace ft
     typename vector<T, Allocator>::const_iterator vector<T, Allocator>::end() const
     {
         return (_array + _size);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rbegin()
+    {
+        return (_array + _size);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rbegin() const
+    {
+        return (_array + _size);
+    }
+    
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rend()
+    {
+        return (_array);
+    }
+    
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rend() const
+    {
+        return (_array);
     }
 
 //CAPACITY
@@ -422,30 +447,30 @@ namespace ft
 //OPERATORS
 
     template <class T, class Allocator>
-        bool    operator==(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator==(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
     template <class T, class Allocator>
-        bool    operator< (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator< (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
     template <class T, class Allocator>
-        bool    operator!=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator!=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
     template <class T, class Allocator>
-        bool    operator> (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator> (const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
     template <class T, class Allocator>
-        bool    operator>=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator>=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
     template <class T, class Allocator>
-        bool    operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
+    bool    operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y);
 
 //SPECIALIZED ALGORITHMS
 
     template <class T, class Allocator>
-        void    swap(vector<T, Allocator>& x, vector<T, Allocator>& y)
-        {
-            x.swap(y);
-        }
+    void    swap(vector<T, Allocator>& x, vector<T, Allocator>& y)
+    {
+        x.swap(y);
+    }
 }
 
 #endif

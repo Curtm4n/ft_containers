@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 10:50:11 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/09 01:35:27 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:22:54 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ namespace ft
             ItVector<T>     operator--(int)                         { ItVector<T>   tmp(*this); _ptr--; return (tmp); }
             ItVector<T>&    operator+=(difference_type n)           { _ptr += n; return (*this); }
             ItVector<T>&    operator-=(difference_type n)           { _ptr -= n; return (*this); }
-            reference       operator[](difference_type n)           { return (_ptr[n]); }
+            reference       operator[](difference_type n)           { return (*(_ptr + n)); }
 
         private:
 
