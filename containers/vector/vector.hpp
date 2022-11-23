@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/23 13:14:43 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:13:37 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft
             explicit    vector(const Allocator& = Allocator());                                                                                                 //Default constructor       //DONE
             explicit    vector(size_type n, const T& value = T(), const Allocator& = Allocator());                                                              //Parametric constructor    //DONE
             template <class InputIterator>
-                vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& = Allocator());  //Range Constructor
+                vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& = Allocator());  //Range Constructor         //DONE
             vector(const vector<T, Allocator>& x);                                                                                                              //Copy constructor          //DONE
             vector<T, Allocator>&   operator=(const vector<T, Allocator>& x);                                                                                   //Assignation operator      //DONE
 
@@ -386,6 +386,30 @@ namespace ft
     }
 
 //MODIFIERS
+
+    template <class T, class Allocator>
+    template <class InputIterator>
+    void    vector<T, Allocator>::assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
+    {
+        pointer     tmp;
+        size_type   sz = last - first;
+
+        if (sz > _capacity)
+            tmp = _alloc.allocate(sz);
+        this->clear();
+        if (sz > _capacity)
+        {
+            if (_capacity)
+                _alloc.deallocate(_array, _capacity);
+            _capacity = sz;
+            _array = tmp;
+        }
+        for (; first != last; first++)
+        {
+            _alloc.construct(_array + _size, *first);
+            _size++;
+        }
+    }
 
     template <class T, class Allocator>
     void    vector<T, Allocator>::assign(size_type n, const T& u)
