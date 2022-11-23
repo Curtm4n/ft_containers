@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/23 15:23:53 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:57:02 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,17 @@ int main(void)
     std::cout << Green << "Test for assign method (range version)" << Reset << std::endl;
     vector5.assign(vector6.begin(), vector6.end());
 
-    for (size_t i = 0; i < vector7.size(); i++)
-        std::cout << vector7[i] << " ";
+    for (size_t i = 0; i < vector5.size(); i++)
+        std::cout << vector5[i] << " ";
+    std::cout << std::endl;
+
+
+    //TEST FOR ERASE METHOD
+    std::cout << Green << "Test for erase method" << Reset << std::endl;
+    vector5.erase(vector5.begin());
+
+    for (iterator it = vector5.begin(); it != vector5.end(); it++)
+        std::cout << *it << " ";
     std::cout << std::endl;
 
     

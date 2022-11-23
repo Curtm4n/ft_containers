@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/23 15:13:37 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:14:56 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,18 @@ namespace ft
 
             //MODIFIERS
             template <class InputIterator>
-                void    assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);
-            void        assign(size_type n, const T& u);                    //DONE
-            void        push_back(const T& x);                              //DONE
-            void        pop_back();                                         //DONE
-            //iterator  insert(iterator position, const T& x);
-            //void      insert(iterator position, size_type n, const T& x);
-            //template <class InputIterator>
-                //void    insert(iterator position, InputIterator first, InputIterator last);
-            //iterator  erase(iterator position);
-            //iterator  erase(iterator first, iterator last);
-            void        swap(vector<T, Allocator>&);                        //DONE
-            void        clear();                                            //DONE
+                void    assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);  //DONE
+            void        assign(size_type n, const T& u);                                                                                //DONE
+            void        push_back(const T& x);                                                                                          //DONE
+            void        pop_back();                                                                                                     //DONE
+            iterator  insert(iterator position, const T& x);
+            void      insert(iterator position, size_type n, const T& x);
+            template <class InputIterator>
+                void    insert(iterator position, InputIterator first, InputIterator last);
+            iterator  erase(iterator position);
+            iterator  erase(iterator first, iterator last);
+            void        swap(vector<T, Allocator>&);                                                                                    //DONE
+            void        clear();                                                                                                        //DONE
 
         private:
 
@@ -134,7 +134,7 @@ namespace ft
     template <class InputIterator>
     vector<T, Allocator>::vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc)
     {
-        difference_type   sz = last - first;
+        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element)
 
         if (sz)
         {
@@ -391,8 +391,8 @@ namespace ft
     template <class InputIterator>
     void    vector<T, Allocator>::assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
     {
+        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element)
         pointer     tmp;
-        size_type   sz = last - first;
 
         if (sz > _capacity)
             tmp = _alloc.allocate(sz);
@@ -458,6 +458,25 @@ namespace ft
     {
         _alloc.destroy(_array + _size - 1);
         _size--;
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)  //NEED TO CHECK EXCEPTION SAFETY (std::move ?)
+    {
+        _alloc.destroy(position.getPointer());
+        _size--;
+        for (size_type start = position - this->begin(); start < _size; start++)
+            _alloc.construct(_array + start, _array[start + 1]);
+        _alloc.destroy(_array + _size - 1);
+        return (position);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last)
+    {
+        //TODO:
+        (void)last;
+        return (first);
     }
 
     template <class T, class Allocator>
