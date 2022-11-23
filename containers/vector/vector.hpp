@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/15 21:27:27 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:14:43 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ namespace ft
 
             //MODIFIERS
             template <class InputIterator>
-                void    assign(InputIterator first, InputIterator last);
+                void    assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);
             void        assign(size_type n, const T& u);                    //DONE
             void        push_back(const T& x);                              //DONE
             void        pop_back();                                         //DONE
@@ -125,6 +125,24 @@ namespace ft
             for (size_type i = 0; i < n; i++)
             {
                 _alloc.construct(_array + i, value);
+                _size++;
+            }
+        }
+    }
+
+    template <class T, class Allocator>
+    template <class InputIterator>
+    vector<T, Allocator>::vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc)
+    {
+        difference_type   sz = last - first;
+
+        if (sz)
+        {
+            _array = _alloc.allocate(sz);
+            _capacity = sz;
+            for (; first != last; first++)
+            {
+                _alloc.construct(_array + _size, *first);
                 _size++;
             }
         }
