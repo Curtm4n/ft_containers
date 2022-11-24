@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/23 17:57:02 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:16:06 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,11 @@ int main(void)
     for (iterator it = vector5.begin(); it != vector5.end(); it++)
         std::cout << *it << " ";
     std::cout << std::endl;
+
+
+    std::cout << Green << "Test for erase method with vector of vector of int" << Reset << std::endl;
+    NAMESPACE::vector<NAMESPACE::vector<int> >  vector8(10, NAMESPACE::vector<int>(10, 255));
+    vector8.erase(vector8.begin() + 6);
 
     
     return (0);

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/23 18:14:56 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:05:35 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ namespace ft
     template <class InputIterator>
     vector<T, Allocator>::vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc)
     {
-        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element)
+        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element, check tag dispatching)
 
         if (sz)
         {
@@ -265,7 +265,7 @@ namespace ft
         {
             if (sz > _capacity)
                 this->reserve(sz);
-            if (_capacity < sz)                                 //MAY SEEMS REDUNDANT BUT CHECK IF THE CALL TO RESERVE ACTUALLY WORKED AND CHANGED THE CAPACITY SINCE THIS METHOD CATCH SOME EXCEPTIONS
+            if (_capacity < sz)
                 return ;
             for (size_type i = _size; i < sz; i++)
             {
@@ -299,7 +299,7 @@ namespace ft
                 throw (std::length_error("Length error"));
             tmp = _alloc.allocate(n);
             cptr = 0;
-            try                                                 //HERE I USED A TRY/CATCH BLOCK TO RELEASE MEMORY IN CASE ONE OF THE ELEMENT CONSTRUCTION FAILED
+            try
             {
                 for (size_type i = 0; i < _size; i++)
                 {
@@ -391,7 +391,7 @@ namespace ft
     template <class InputIterator>
     void    vector<T, Allocator>::assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
     {
-        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element)
+        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element, check tag dispatching)
         pointer     tmp;
 
         if (sz > _capacity)
@@ -463,11 +463,15 @@ namespace ft
     template <class T, class Allocator>
     typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)  //NEED TO CHECK EXCEPTION SAFETY (std::move ?)
     {
-        _alloc.destroy(position.getPointer());
+        size_type   start = position - this->begin();
+
+        for (; start < _size; start++)
+        {
+            _alloc.destroy(_array + start);
+            if (start + 1 < _size)
+                _alloc.construct(_array + start, _array[start + 1]);
+        }
         _size--;
-        for (size_type start = position - this->begin(); start < _size; start++)
-            _alloc.construct(_array + start, _array[start + 1]);
-        _alloc.destroy(_array + _size - 1);
         return (position);
     }
 
