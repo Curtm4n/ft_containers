@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/24 18:05:35 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:47:59 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,29 @@ namespace ft
     template <class T, class Allocator>
     vector<T, Allocator>&   vector<T, Allocator>::operator=(const vector<T, Allocator>& x)
     {
-        if (this != &x)
+        if (this == &x)
+            return (*this);
+        if (x.size() > _capacity)
         {
             vector<T, Allocator>    tmp(x);
 
             this->swap(tmp);
+        }
+        else
+        {
+            if (x.size() <= _size)
+            {
+                iterator it = std::copy(x.begin(), x.end(), this->begin());
+                for (; it < this->end(); it++)
+                    _alloc.destroy(it.getPointer());
+                _size = x.size();
+            }
+            else
+            {
+                std::copy(x.begin(), x.begin() + _size, this->begin());
+                for (; _size < x.size(); _size++)
+                    _alloc.construct(_array + _size, x[_size]);
+            }
         }
         return (*this);
     }
@@ -463,15 +481,17 @@ namespace ft
     template <class T, class Allocator>
     typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)  //NEED TO CHECK EXCEPTION SAFETY (std::move ?)
     {
-        size_type   start = position - this->begin();
-
-        for (; start < _size; start++)
+        try
         {
-            _alloc.destroy(_array + start);
-            if (start + 1 < _size)
-                _alloc.construct(_array + start, _array[start + 1]);
+            if (position + 1 != this->end())
+                std::copy(position + 1, this->end(), position);
         }
-        _size--;
+        catch(const std::exception& e)
+        {
+            return (position);
+        }
+        --_size;
+        _alloc.destroy(_array + _size);
         return (position);
     }
 
