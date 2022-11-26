@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/24 19:47:59 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/26 15:09:10 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ namespace ft
             void      insert(iterator position, size_type n, const T& x);
             template <class InputIterator>
                 void    insert(iterator position, InputIterator first, InputIterator last);
-            iterator  erase(iterator position);
+            iterator  erase(iterator position);                                                                                         //DONE
             iterator  erase(iterator first, iterator last);
             void        swap(vector<T, Allocator>&);                                                                                    //DONE
             void        clear();                                                                                                        //DONE
@@ -479,7 +479,7 @@ namespace ft
     }
 
     template <class T, class Allocator>
-    typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)  //NEED TO CHECK EXCEPTION SAFETY (std::move ?)
+    typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)
     {
         try
         {
@@ -498,8 +498,13 @@ namespace ft
     template <class T, class Allocator>
     typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last)
     {
-        //TODO:
-        (void)last;
+        iterator    it = first + std::distance(first, last);
+
+        if (last != this->end())
+            std::copy(last, this->end(), first);
+        for (; it < this->end(); it++)
+            _alloc.destroy(it.getPointer());
+        _size -= std::distance(first, last);
         return (first);
     }
 
