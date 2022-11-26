@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/26 15:02:03 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:40:38 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,16 @@ int main(void)
     //TEST FOR ERASE METHOD (range version)
     std::cout << Green << "Test for erase method (range version)" << Reset << std::endl;
     vector5.erase(vector5.begin() + 2, vector5.begin() + 4);
+
+    for (iterator it = vector5.begin(); it != vector5.end(); it++)
+        std::cout << *it << " ";
+    std::cout << std::endl;
+
+
+    //TEST FOR INSERT METHOD
+    std::cout << Green << "Test for insert method" << Reset << std::endl;
+    vector5.insert(vector5.begin(), 0);
+    vector5.insert(vector5.begin() + 1, 1);
 
     for (iterator it = vector5.begin(); it != vector5.end(); it++)
         std::cout << *it << " ";

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/26 15:09:10 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:35:44 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ namespace ft
             void        pop_back();                                                                                                     //DONE
             iterator  insert(iterator position, const T& x);
             void      insert(iterator position, size_type n, const T& x);
-            template <class InputIterator>
-                void    insert(iterator position, InputIterator first, InputIterator last);
+            /*template <class InputIterator>
+                void    insert(iterator position, InputIterator first, InputIterator last);*/
             iterator  erase(iterator position);                                                                                         //DONE
-            iterator  erase(iterator first, iterator last);
+            iterator  erase(iterator first, iterator last);                                                                             //DONE
             void        swap(vector<T, Allocator>&);                                                                                    //DONE
             void        clear();                                                                                                        //DONE
 
@@ -283,8 +283,6 @@ namespace ft
         {
             if (sz > _capacity)
                 this->reserve(sz);
-            if (_capacity < sz)
-                return ;
             for (size_type i = _size; i < sz; i++)
             {
                 _alloc.construct(_array + i, c);
@@ -330,7 +328,7 @@ namespace ft
                 for (size_type i = 0; i < cptr; i++)
                     _alloc.destroy(tmp + i);
                 _alloc.deallocate(tmp, n);
-                return ;
+                throw (std::bad_alloc());
             }
             for (size_type i = 0; i < _size; i++)
                 _alloc.destroy(_array + i);
@@ -479,17 +477,31 @@ namespace ft
     }
 
     template <class T, class Allocator>
+    typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator position, const T& x)
+    {
+        if (_size == _capacity)
+            this->reserve(_capacity + 1);
+        if (position == this->end())
+        {
+            _alloc.construct(_array + _size, x);
+            _size++;
+        }
+        else
+        {
+            _alloc.construct(_array + _size, _array[_size - 1]);
+            _size++;
+            for (iterator itEnd = this->end() - 2; itEnd > position; itEnd--)
+                *itEnd = *(itEnd - 1);
+            *position = x;
+        }
+        return (position);
+    }
+
+    template <class T, class Allocator>
     typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position)
     {
-        try
-        {
-            if (position + 1 != this->end())
-                std::copy(position + 1, this->end(), position);
-        }
-        catch(const std::exception& e)
-        {
-            return (position);
-        }
+        if (position + 1 != this->end())
+            std::copy(position + 1, this->end(), position);
         --_size;
         _alloc.destroy(_array + _size);
         return (position);
