@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/01 11:43:38 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:19:26 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -480,7 +480,11 @@ namespace ft
     typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator position, const T& x)
     {
         if (_size == _capacity)
+        {
+            size_type index = std::distance(this->begin(), position);
             this->reserve(_capacity + 1);
+            position = this->begin() + index;
+        }
         if (position == this->end())
         {
             _alloc.construct(_array + _size, x);
@@ -498,13 +502,39 @@ namespace ft
     }
 
     template <class T, class Allocator>
-    typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator position, size_type n, const T& x)
+    void    vector<T, Allocator>::insert(iterator position, size_type n, const T& x)
     {
+        if (!n)             //CHECK UTILITY
+            return ;
         if (_size + n > _capacity)
-            this->reserve(_size + capacity);
+            this->reserve(_size + n);   //MUST BE COMPARED TO STD::VECTOR
         if (position == this->end())
         {
-            //for loop
+            for (size_type i = 0; i < n; i++)
+            {
+                _alloc.construct(_array + _size, x);
+                _size++;
+            }
+        }
+        else
+        {
+            /*for (size_type i = 0; i < n; i++)
+                this->insert(position, x);*/        //WORK BUT VERY UNOPTIMIZED
+
+            size_type nbElem;                                                       //nb elements to relocate
+            size_type lastValIndex = std::distance(this->begin(), position) + n;    //index of the last value initialized item
+            if (lastValIndex < _size)
+                nbElem = std::distance(position + n, this->end());
+            else
+                nbElem = std::distance(position, this->end());
+
+            for (size_type i = _size; _size <= lastValIndex; _size++)
+                _alloc.construct(_array + _size, x);
+            for (; nbElem > 0; nbElem--)
+            {
+                _alloc.construct(_array + _size, *position++);
+                _size++;
+            }
         }
     }
 
@@ -521,13 +551,16 @@ namespace ft
     template <class T, class Allocator>
     typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last)
     {
-        iterator    it = first + std::distance(first, last);
+        if (first != last)
+        {
+            iterator    it = this->end() - std::distance(first, last);
 
-        if (last != this->end())
-            std::copy(last, this->end(), first);
-        for (; it < this->end(); it++)
-            _alloc.destroy(it.getPointer());
-        _size -= std::distance(first, last);
+            if (last != this->end())
+                std::copy(last, this->end(), first);
+            for (; it < this->end(); it++)
+                _alloc.destroy(it.getPointer());
+            _size -= std::distance(first, last);
+        }
         return (first);
     }
 

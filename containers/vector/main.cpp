@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/26 16:40:38 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:12:51 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,13 +193,28 @@ int main(void)
     std::cout << std::endl;
 
 
-    std::cout << Green << "Test for erase method with vector of vector of int (no output :) )" << Reset << std::endl;
+    std::cout << Green << "Test for erase method with vector of vector of int (no output :) )" << Reset << std::endl << std::endl;
     NAMESPACE::vector<NAMESPACE::vector<int> >  vector8(10, NAMESPACE::vector<int>(10, 255));
     vector8.erase(vector8.begin() + 6);
 
 
     //TEST FOR ERASE METHOD (range version)
     std::cout << Green << "Test for erase method (range version)" << Reset << std::endl;
+    std::cout << "vector5 before erase: " << std::endl;
+    for (iterator it = vector5.begin(); it != vector5.end(); it++)
+        std::cout << *it << " ";
+    std::cout << std::endl;
+    std::cout << std::endl << "erasing range ";
+    for (iterator it = vector5.begin(); it != vector5.end(); it++)
+    {
+        if (it == vector5.begin() + 2)
+            std::cout << "[ ";
+        else if (it == vector5.begin() + 4)
+            std::cout << "] ";
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl << std::endl;
+
     vector5.erase(vector5.begin() + 2, vector5.begin() + 4);
 
     for (iterator it = vector5.begin(); it != vector5.end(); it++)
