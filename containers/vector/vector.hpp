@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/11/26 16:35:44 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:43:38 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -495,6 +495,17 @@ namespace ft
             *position = x;
         }
         return (position);
+    }
+
+    template <class T, class Allocator>
+    typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator position, size_type n, const T& x)
+    {
+        if (_size + n > _capacity)
+            this->reserve(_size + capacity);
+        if (position == this->end())
+        {
+            //for loop
+        }
     }
 
     template <class T, class Allocator>
