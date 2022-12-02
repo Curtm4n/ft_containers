@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 17:30:51 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:43:48 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 
 # include <memory>
 # include <cstddef>
+# include <functional>
 
 namespace ft
 {
-    //NEED TO CREATE less EQUIVALENT FOR ORDERING MY BINARY TREE AND PAIR CLASS TO USE FOR MY NODES
-    template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
+    //NEED TO IMPLEMENT PAIR CLASS TO USE FOR MY NODES
+    template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
     class map
     {
         

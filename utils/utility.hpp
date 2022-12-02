@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:27:31 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 17:29:11 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:42:12 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 
 namespace ft
 {
-    template <class T1, class T2>
+    template <class Key, class T>
     struct pair
     {
-        //TODO
+        typedef Key first_type;
+        typedef T   second_type;
+
+        first_type  first;
+        second_type second;
     };
 }
 
