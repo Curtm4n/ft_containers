@@ -6,19 +6,20 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 10:53:42 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/10/12 21:58:31 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 16:14:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
+# include "../vector/vector.hpp"
+
 # include <iostream>
-# include <vector>
 
 namespace ft
 {
-    template<class T, class Container = std::vector<T> >
+    template<class T, class Container = ft::vector<T> >
     class stack
     {
 
