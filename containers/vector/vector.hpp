@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/01 16:19:26 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 13:30:27 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,10 +504,15 @@ namespace ft
     template <class T, class Allocator>
     void    vector<T, Allocator>::insert(iterator position, size_type n, const T& x)
     {
-        if (!n)             //CHECK UTILITY
+        size_type   indexPos = std::distance(this->begin(), position);
+        
+        if (!n)
             return ;
         if (_size + n > _capacity)
-            this->reserve(_size + n);   //MUST BE COMPARED TO STD::VECTOR
+        {
+            this->reserve(_size + n);
+            position = this->begin() + indexPos;
+        }
         if (position == this->end())
         {
             for (size_type i = 0; i < n; i++)
@@ -518,22 +523,31 @@ namespace ft
         }
         else
         {
-            /*for (size_type i = 0; i < n; i++)
-                this->insert(position, x);*/        //WORK BUT VERY UNOPTIMIZED
+            size_type prevEnd = _size;
+            size_type prevValIndex = indexPos + n;    //index where prev values are relocated
 
-            size_type nbElem;                                                       //nb elements to relocate
-            size_type lastValIndex = std::distance(this->begin(), position) + n;    //index of the last value initialized item
-            if (lastValIndex < _size)
-                nbElem = std::distance(position + n, this->end());
-            else
-                nbElem = std::distance(position, this->end());
-
-            for (size_type i = _size; _size <= lastValIndex; _size++)
-                _alloc.construct(_array + _size, x);
-            for (; nbElem > 0; nbElem--)
+            if (prevValIndex < _size)
             {
-                _alloc.construct(_array + _size, *position++);
-                _size++;
+                for (size_type i = prevEnd - n; i < prevEnd; i++)
+                {
+                    _alloc.construct(_array + _size, _array[i]);
+                    _size++;
+                }
+                for (size_type i = prevValIndex; i < prevEnd; i++)
+                    _array[i] = _array[i - n];
+                for (; indexPos < prevValIndex; indexPos++)
+                    _array[indexPos] = x;
+            }
+            else
+            {
+                for (; _size < prevValIndex; _size++)
+                    _alloc.construct(_array + _size, x);
+                for (size_type i = indexPos; i < prevEnd; i++)
+                {
+                    _alloc.construct(_array + _size, _array[i]),
+                    _size++;
+                    _array[i] = x;
+                }
             }
         }
     }
