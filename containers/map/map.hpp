@@ -6,14 +6,17 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 17:15:02 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:30:51 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include "../../utils/utility.hpp"
+
 # include <memory>
+# include <cstddef>
 
 namespace ft
 {
@@ -27,19 +30,19 @@ namespace ft
             //TYPES
             typedef Key                                     key_type;
             typedef T                                       mapped_type;
-            //typedef pair<const Key, T>                      value_type;
+            typedef pair<const Key, T>                      value_type;
             typedef Compare                                 key_compare;
             typedef Allocator                               allocator_type;
             typedef typename Allocator::reference           reference;
             typedef typename Allocator::const_reference     const_reference;
             //typedef implementation defined                  iterator;
             //typedef implementation defined                  const_iterator;
-            //typedef implementation defined                  size_type;
-            //typedef implementation defined                  difference_type;
+            typedef std::size_t                             size_type;
+            typedef std::ptrdiff_t                          difference_type;
             typedef typename Allocator::pointer             pointer;
             typedef typename Allocator::const_pointer       const_pointer;
-            //typedef std::reverse_iterator<iterator>         reverse_iterator;
-            //typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
+            //typedef ft::reverse_iterator<iterator>          reverse_iterator;
+            //typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
             //COMPARISON CLASS
             class value_compare : public binary_function<value_type,value_type,bool>    //NEED TO UNDERSTAND THIS EMBODIED CLASS
