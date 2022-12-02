@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 13:04:26 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 15:02:07 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,15 @@ int main(void)
     //TEST FOR INSERT METHOD (n elements)
     std::cout << Green << "Test for insert (n elements) method" << Reset << std::endl;
     vector5.insert(vector5.begin(), 5, 42);
+
+    for (iterator it = vector5.begin(); it != vector5.end(); it++)
+        std::cout << *it << " ";
+    std::cout << std::endl;
+
+
+    //TEST FOR INSERT METHOD (range version)
+    std::cout << Green << "Test for insert (range version) method" << Reset << std::endl;
+    vector5.insert(vector5.begin() + 8, vector6.begin(), vector6.end());
 
     for (iterator it = vector5.begin(); it != vector5.end(); it++)
         std::cout << *it << " ";

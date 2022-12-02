@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 13:30:27 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/02 14:57:16 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,18 @@ namespace ft
 
             //MODIFIERS
             template <class InputIterator>
-                void    assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);  //DONE
-            void        assign(size_type n, const T& u);                                                                                //DONE
-            void        push_back(const T& x);                                                                                          //DONE
-            void        pop_back();                                                                                                     //DONE
-            iterator  insert(iterator position, const T& x);
-            void      insert(iterator position, size_type n, const T& x);
-            /*template <class InputIterator>
-                void    insert(iterator position, InputIterator first, InputIterator last);*/
-            iterator  erase(iterator position);                                                                                         //DONE
-            iterator  erase(iterator first, iterator last);                                                                             //DONE
-            void        swap(vector<T, Allocator>&);                                                                                    //DONE
-            void        clear();                                                                                                        //DONE
+                void    assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);                      //DONE
+            void        assign(size_type n, const T& u);                                                                                                    //DONE
+            void        push_back(const T& x);                                                                                                              //DONE
+            void        pop_back();                                                                                                                         //DONE
+            iterator  insert(iterator position, const T& x);                                                                                                //DONE
+            void      insert(iterator position, size_type n, const T& x);                                                                                   //DONE
+            template <class InputIterator>
+                void    insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last);
+            iterator  erase(iterator position);                                                                                                             //DONE
+            iterator  erase(iterator first, iterator last);                                                                                                 //DONE
+            void        swap(vector<T, Allocator>&);                                                                                                        //DONE
+            void        clear();                                                                                                                            //DONE
 
         private:
 
@@ -547,6 +547,63 @@ namespace ft
                     _alloc.construct(_array + _size, _array[i]),
                     _size++;
                     _array[i] = x;
+                }
+            }
+        }
+    }
+
+    template <class T, class Allocator>
+    template <class InputIterator>
+    void    vector<T, Allocator>::insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
+    {
+        size_type   n = std::distance(first, last);
+        size_type   indexPos = std::distance(this->begin(), position);
+        
+        if (!n)
+            return ;
+        if (_size + n > _capacity)
+        {
+            this->reserve(_size + n);
+            position = this->begin() + indexPos;
+        }
+        if (position == this->end())
+        {
+            for (size_type i = 0; i < n; i++)
+            {
+                _alloc.construct(_array + _size, *first++);
+                _size++;
+            }
+        }
+        else
+        {
+            size_type prevEnd = _size;
+            size_type prevValIndex = indexPos + n;    //index where prev values are relocated
+
+            if (prevValIndex < _size)
+            {
+                for (size_type i = prevEnd - n; i < prevEnd; i++)
+                {
+                    _alloc.construct(_array + _size, _array[i]);
+                    _size++;
+                }
+                for (size_type i = prevValIndex; i < prevEnd; i++)
+                    _array[i] = _array[i - n];
+                for (; indexPos < prevValIndex; indexPos++)
+                    _array[indexPos] = *first++;
+            }
+            else
+            {
+                InputIterator   tmp = first;
+                
+                for (size_type i = std::distance(position, this->end()); i > 0; i--)
+                    tmp++;
+                for (; _size < prevValIndex; _size++)
+                    _alloc.construct(_array + _size, *tmp++);
+                for (size_type i = indexPos; i < prevEnd; i++)
+                {
+                    _alloc.construct(_array + _size, _array[i]),
+                    _size++;
+                    _array[i] = *first++;
                 }
             }
         }
