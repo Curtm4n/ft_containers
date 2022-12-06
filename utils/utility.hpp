@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:27:31 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/06 17:14:01 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/06 17:17:36 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ namespace ft
     }
 
     template <class T1, class T2>
-    pair<T1, T2>    make_pair (T1 x, T2 y)
+    pair<T1, T2>    make_pair(T1 x, T2 y)
     {
         return (pair<T1, T2>(x, y));
     }
