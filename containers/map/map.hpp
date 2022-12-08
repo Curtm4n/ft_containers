@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 17:43:48 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:34:39 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 namespace ft
 {
-    //NEED TO IMPLEMENT PAIR CLASS TO USE FOR MY NODES
     template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
     class map
     {
@@ -115,6 +114,13 @@ namespace ft
             //const_iterator                      upper_bound(const key_type& x) const;
             //pair<iterator,iterator>             equal_range(const key_type& x);
             //pair<const_iterator,const_iterator> equal_range(const key_type& x) const;
+
+        private:
+
+            //typedef AVL_tree<key_type, value_type, std::_Select1st<value_type>, key_compare, allocator_type>    avl_tree;
+
+            //The actual tree structure
+            //avl_tree    tree;
     };
 
     template <class Key, class T, class Compare, class Allocator>

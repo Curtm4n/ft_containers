@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/06 14:59:06 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:27:56 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "../../utils/utility.hpp"
 
-# include <stddef>
+# include <iostream>
+# include <cstddef>
 
 namespace ft
 {
@@ -63,7 +64,7 @@ namespace ft
     }
 
     template <class Key, class T, class U>
-    bool operator==(const ItMap<const Key, T>& x, const ItVector<const Key, U>& y)
+    bool operator==(const ItMap<const Key, T>& x, const ItMap<const Key, U>& y)
     {
         return (x.base() == y.base());
     }
@@ -75,7 +76,7 @@ namespace ft
     }
 
     template <class Key, class T, class U>
-    bool operator!=(const ItMap<const Key, T>& x, const ItVector<const Key, U>& y)
+    bool operator!=(const ItMap<const Key, T>& x, const ItMap<const Key, U>& y)
     {
         return (x.base() != y.base());
     }
