@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/08 19:34:39 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/09 15:31:48 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MAP_HPP
 
 # include "../../utils/utility.hpp"
+# include "AVL_tree.hpp"
 
 # include <memory>
 # include <cstddef>
@@ -120,7 +121,7 @@ namespace ft
             //typedef AVL_tree<key_type, value_type, std::_Select1st<value_type>, key_compare, allocator_type>    avl_tree;
 
             //The actual tree structure
-            //avl_tree    tree;
+            //AVL_tree    tree;
     };
 
     template <class Key, class T, class Compare, class Allocator>
