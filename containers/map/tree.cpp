@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 11:43:55 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 13:56:43 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:45:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,31 @@ namespace ft
             x = y;
         }
         return (x);
+    }
+
+    tree_header::tree_header()
+    {
+        header.balFactor = -2;
+        reset();
+    }
+
+    void    tree_header::move_data(tree_header& from)
+    {
+        header.balFactor = from.header.balFactor;
+        header.parent = from.header.parent;
+        header.left = from.header.left;
+        header.right = from.header.right;
+        header.parent->parent = &header;
+        node_count = from.node_count;
+
+        from.reset();
+    }
+
+    void    tree_header::reset()
+    {
+        header.parent = 0;
+        header.left = &header;
+        header.right = &header;
+        node_count = 0;
     }
 }

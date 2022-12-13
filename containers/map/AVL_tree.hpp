@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 14:00:41 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:31:08 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ namespace ft
         const Tp*   getDataPtr() const  { return (&data); }
     };
 
-    struct header_node
+    struct tree_header
     {
         node_base   header;
         std::size_t node_count;
 
-        header_node()   { header.balFactor = -2; } //HERE !!! (should be moved to tree.cpp bc not template so no definition here !)
+        tree_header();
+
+        void    move_data(tree_header& from);
+        void    reset();
     };
 
     template <class Key, class Value, class KeyOfValue, class Compare, class Alloc = std::allocator<Value> >
