@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/09 14:46:40 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 12:33:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ namespace ft
         base_ptr    parent;
         base_ptr    left;
         base_ptr    right;
+        signed char balFactor;
     };
 
     template <class Tp>

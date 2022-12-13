@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/09 15:31:48 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 11:41:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,10 @@ namespace ft
             //typedef AVL_tree<key_type, value_type, std::_Select1st<value_type>, key_compare, allocator_type>    avl_tree;
 
             //The actual tree structure
-            //AVL_tree    tree;
+            //avl_tree    tree;
     };
 
+    //RELATIONAL OPERATORS
     template <class Key, class T, class Compare, class Allocator>
     bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
 
