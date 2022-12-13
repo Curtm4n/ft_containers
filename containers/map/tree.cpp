@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 11:43:55 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 15:45:55 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 17:55:47 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,34 @@
 
 namespace ft
 {
+    node_base::base_ptr node_base::minimum(base_ptr x)
+    {
+        while (x->left)
+            x = x->left;
+        return (x);
+    }
+
+    node_base::const_base_ptr   node_base::minimum(const_base_ptr x)
+    {
+        while (x->left)
+            x = x->left;
+        return (x);
+    }
+
+    node_base::base_ptr node_base::maximum(base_ptr x)
+    {
+        while (x->right)
+            x = x->right;
+        return (x);
+    }
+    
+    node_base::const_base_ptr   node_base::maximum(const_base_ptr x)
+    {
+        while (x->right)
+            x = x->right;
+        return (x);
+    }
+
     node_base*  node_increment(node_base* x)
     {
         if (x->right)
@@ -128,5 +156,23 @@ namespace ft
         header.left = &header;
         header.right = &header;
         node_count = 0;
+    }
+
+    /*        LEFT ROTATION
+    *       /                /
+    *      x                y
+    *     / \              / \
+    *    a   y      =>    x   c
+    *       / \          / \
+    *     [b]   c       a  [b]
+    */
+    void    rotate_left(node_base* x, node_base* & root)
+    {
+
+    }
+
+    void    rotate_right(node_base* x, node_base* & root)
+    {
+        
     }
 }

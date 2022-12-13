@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 14:18:23 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 17:27:44 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 namespace ft
 {
-
     node_base*          node_increment(node_base* x);
     const node_base*    node_increment(const node_base* x);
     node_base*          node_decrement(node_base* x);

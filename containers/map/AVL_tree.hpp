@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 15:31:08 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/13 17:34:17 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ namespace ft
         base_ptr    left;
         base_ptr    right;
         signed char balFactor;
+
+        static base_ptr         minimum(base_ptr x);
+        static const_base_ptr   minimum(const_base_ptr x);
+        static base_ptr         maximum(base_ptr x);
+        static const_base_ptr   maximum(const_base_ptr x);
     };
 
     template <class Tp>
@@ -51,6 +56,19 @@ namespace ft
         void    move_data(tree_header& from);
         void    reset();
     };
+
+    //Helper type offering value initialization guarantee on the compare functor
+    template <class Compare>
+    struct key_compare
+    {
+        Compare comp;
+
+        key_compare() : comp()                                  {}
+        key_compare(const Compare& key_comp) : comp(key_comp)   {}
+    };
+
+    void    rotate_left(node_base* x, node_base* & root);
+    void    rotate_right(node_base* x, node_base* & root);
 
     template <class Key, class Value, class KeyOfValue, class Compare, class Alloc = std::allocator<Value> >
     class AVL_tree
