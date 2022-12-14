@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 11:43:55 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/14 15:20:47 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:14:54 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,5 +270,57 @@ namespace ft
         }
     }
 
-    //HERE
+    /*            LEFT_RIGHT ROTATION
+    *          /                      /
+    *         a                      c
+    *        / \                    / \
+    *       b   g      =>          /   \
+    *      / \                    b    a
+    *     d   c                  / \  / \
+    *        / \                d  e  f  g
+    *       e   f
+    */
+    void    rotate_left_right(node_base* a, node_base* & root)
+    {
+        assert(a->left && a->left->right);
+
+        node_base* b = a->left;
+        node_base* c = b->right;
+
+        // a and b link to c' sons
+        a->left = c->right;
+        b->right = c->left;
+
+        // c becomes the parent of a and b
+        c->right = a;
+        c->left = b;
+
+        // c links to the parent of a and b
+        c->parent = a->parent;
+        a->parent = c;
+        b->parent = c;
+
+        // check c' sons and link to their new parent
+        if (a->left) // this is f
+            a->left->parent = a;
+        if (b->right) // this is e
+            b->right->parent = b;
+
+        //I'M HERE !!!
+    }
+
+    /*          RIGHT_LEFT ROTATION
+    *       /                       /
+    *       a                       c
+    *      / \                     / \
+    *     d   b      =>           /   \
+    *        / \                 a     b
+    *       c   g               / \   / \
+    *      / \                 d   e  f  g
+    *     e   f
+    */
+    void    rotate_right_left(node_base* x, node_base* & root)
+    {
+
+    }
 }

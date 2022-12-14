@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 17:34:17 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:35:35 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ namespace ft
 
     void    rotate_left(node_base* x, node_base* & root);
     void    rotate_right(node_base* x, node_base* & root);
+    void    rotate_left_right(node_base* x, node_base* & root);
+    void    rotate_right_left(node_base* x, node_base* & root);
 
     template <class Key, class Value, class KeyOfValue, class Compare, class Alloc = std::allocator<Value> >
     class AVL_tree
