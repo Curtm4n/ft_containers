@@ -6,12 +6,14 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/14 15:35:35 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:19:29 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AVL_TREE_HPP
 # define AVL_TREE_HPP
+
+//# include "ItMap.hpp"
 
 # include <memory>
 
@@ -75,6 +77,23 @@ namespace ft
     template <class Key, class Value, class KeyOfValue, class Compare, class Alloc = std::allocator<Value> >
     class AVL_tree
     {
+
+        public:
+
+            //TYPES
+            typedef Value                                   value_type;
+            typedef Compare                                 key_compare;
+            typedef Alloc                                   allocator_type;
+            typedef typename Alloc::reference               reference;
+            typedef typename Alloc::const_reference         const_reference;
+            typedef ItMap<Value>                            iterator;
+            typedef ConstItMap<Value>                       const_iterator;
+            typedef std::size_t                             size_type;
+            typedef std::ptrdiff_t                          difference_type;
+            typedef typename Allocator::pointer             pointer;
+            typedef typename Allocator::const_pointer       const_pointer;
+            //typedef ft::reverse_iterator<iterator>          reverse_iterator;
+            //typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
     };
 }
