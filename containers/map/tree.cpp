@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 11:43:55 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/14 16:14:54 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/16 15:06:14 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,42 @@ namespace ft
         if (b->right) // this is e
             b->right->parent = b;
 
-        //I'M HERE !!!
+        // the parent of a and b link to c
+        if (a == root)
+            root = c;
+        else if (c->parent->left == a)
+            c->parent->left = c;
+        else
+            c->parent->right = c;
+
+        switch (c->balFactor)
+        {
+            case -1:
+                /*
+                *    c
+                *   /
+                *  e
+                */
+               a->balFactor = 1;
+               b->balFactor = 0;
+               break ;
+            case 0:
+                a->balFactor = 0;
+                b->balFactor = 0;
+                break ;
+            case 1:
+                /*
+                *    c
+                *     \
+                *      f
+                */
+               a->balFactor = 0;
+               b->balFactor = -1;
+               break ;
+            default:
+                assert(false);
+        }
+        c->balFactor = 0;
     }
 
     /*          RIGHT_LEFT ROTATION
@@ -319,8 +354,67 @@ namespace ft
     *      / \                 d   e  f  g
     *     e   f
     */
-    void    rotate_right_left(node_base* x, node_base* & root)
+    void    rotate_right_left(node_base* a, node_base* & root)
     {
+        assert(a->right && a->right->left);
 
+        node_base* b = a->right;
+        node_base* c = b->left;
+
+        // a and b link to c' sons
+        a->right = c->left;
+        b->left = c->right;
+
+        // c becomes the parent of a and b
+        c->left = a;
+        c->right = b;
+
+        // c links to the parent of a and b
+        c->parent = a->parent;
+        a->parent = c;
+        b->parent = c;
+
+        // check c' sons and link to their new parent
+        if (a->right) // this is e
+            a->right->parent = a;
+        if (b->left) // this is f
+            b->left->parent = b;
+
+        // the parent of a and b link to c
+        if (a == root)
+            root = c;
+        else if (c->parent->left == a)
+            c->parent->left = c;
+        else
+            c->parent->right = c;
+
+        switch (c->balFactor)
+        {
+            case -1:
+                /*
+                *    c
+                *   /
+                *  e
+                */
+               a->balFactor = 0;
+               b->balFactor = 1;
+               break ;
+            case 0:
+                a->balFactor = 0;
+                b->balFactor = 0;
+                break ;
+            case 1:
+                /*
+                *   c
+                *    \
+                *     f
+                */
+               a->balFactor = -1;
+               b->balFactor = 0;
+               break ;
+            default:
+                assert(false);
+        }
+        c->balFactor = 0;
     }
 }
