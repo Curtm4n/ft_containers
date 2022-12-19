@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/19 16:42:55 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:46:00 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "node.hpp"
 # include "ItMap.hpp"
+# include "../../utils/iterator.hpp"
 
 # include <memory>
 # include <cstddef>
@@ -55,8 +56,8 @@ namespace ft
             typedef std::ptrdiff_t                          difference_type;
             typedef typename Alloc::pointer                 pointer;
             typedef typename Alloc::const_pointer           const_pointer;
-            //typedef ft::reverse_iterator<iterator>          reverse_iterator;
-            //typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
+            typedef ft::reverse_iterator<iterator>          reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
     };
 }
