@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/13 17:27:44 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:35:31 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define ITMAP_HPP
 
 # include "../../utils/utility.hpp"
-# include "AVL_tree.hpp"
+# include "node.hpp"
 
 # include <cstddef>
 

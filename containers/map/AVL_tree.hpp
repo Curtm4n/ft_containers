@@ -6,59 +6,22 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/16 16:19:29 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:42:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AVL_TREE_HPP
 # define AVL_TREE_HPP
 
-//# include "ItMap.hpp"
+# include "node.hpp"
+# include "ItMap.hpp"
 
 # include <memory>
+# include <cstddef>
+# include <functional>
 
 namespace ft
 {
-    struct node_base
-    {
-        typedef node_base*          base_ptr;
-        typedef const node_base*    const_base_ptr;
-
-        base_ptr    parent;
-        base_ptr    left;
-        base_ptr    right;
-        signed char balFactor;
-
-        static base_ptr         minimum(base_ptr x);
-        static const_base_ptr   minimum(const_base_ptr x);
-        static base_ptr         maximum(base_ptr x);
-        static const_base_ptr   maximum(const_base_ptr x);
-    };
-
-    template <class Tp>
-    struct node : public node_base
-    {
-        typedef node<Tp>*   link_type;
-
-        Tp  data;
-
-        node(const Tp& val) : data(val) {}
-
-        Tp*         getDataPtr()        { return (&data); }
-        const Tp*   getDataPtr() const  { return (&data); }
-    };
-
-    struct tree_header
-    {
-        node_base   header;
-        std::size_t node_count;
-
-        tree_header();
-
-        void    move_data(tree_header& from);
-        void    reset();
-    };
-
     //Helper type offering value initialization guarantee on the compare functor
     template <class Compare>
     struct key_compare
@@ -90,8 +53,8 @@ namespace ft
             typedef ConstItMap<Value>                       const_iterator;
             typedef std::size_t                             size_type;
             typedef std::ptrdiff_t                          difference_type;
-            typedef typename Allocator::pointer             pointer;
-            typedef typename Allocator::const_pointer       const_pointer;
+            typedef typename Alloc::pointer                 pointer;
+            typedef typename Alloc::const_pointer           const_pointer;
             //typedef ft::reverse_iterator<iterator>          reverse_iterator;
             //typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
