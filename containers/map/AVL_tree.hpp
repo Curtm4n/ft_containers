@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/21 17:35:52 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/21 19:11:44 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,37 @@ namespace ft
 
             node_allocator      M_alloc;
 
+        private:
+
             base_ptr&       M_root()            { return (M_impl.header.parent); }
             const_base_ptr  M_root() const      { return (M_impl.header.parent); }
+
             base_ptr&       M_leftmost()        { return (M_impl.header.left); }
             const_base_ptr  M_leftmost() const  { return (M_impl.header.left); }
 
+            base_ptr&       M_rightmost()       { return (M_impl.header.right); }
+            const_base_ptr  M_rightmost() const { return (M_impl.header.right); }
+
+            link_type       M_begin()       { return (static_cast<link_type>(M_impl.header.parent)); }
+            const_link_type M_begin() const { return (static_cast<const_link_type>(M_impl.header.parent)); }
+
+            base_ptr        M_end()         { return (&M_impl.header); }
+            const_base_ptr  M_end() const   { return (&M_impl.header); }
+
+            static const Key&   S_key(const_link_type x)    { return (KeyOfValue()(*(x->getDataPtr()))); }
+            static const Key&   S_key(const_base_ptr x)     { return (S_key(static_cast<const_link_type>(x))); }
+
+            static link_type        S_left(base_ptr x)          { return (static_cast<link_type>(x->left)); }
+            static const_link_type  S_left(const_base_ptr x)    { return (static_cast<const_link_type>(x->left)); }
+
+            static link_type        S_right(base_ptr x)         { return (static_cast<link_type>(x->right)); }
+            static const_link_type  S_right(const_base_ptr x)   { return (static_cast<const_link_type>(x->right)); }
+
+            static base_ptr         S_minimum(base_ptr x)       { return (node_base::minimum(x)); }
+            static const_base_ptr   S_minimum(const_base_ptr x) { return (node_base::minimum(x)); }
+
+            static base_ptr         S_maximum(base_ptr x)       { return (node_base::maximum(x)); }
+            static const_base_ptr   S_maximum(const_base_ptr x) { return (node_base::maximum(x)); }
 
         public:
 
