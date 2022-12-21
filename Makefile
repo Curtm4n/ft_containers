@@ -6,7 +6,7 @@
 #    By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 09:51:12 by cdapurif          #+#    #+#              #
-#    Updated: 2022/12/13 16:43:15 by cdapurif         ###   ########.fr        #
+#    Updated: 2022/12/21 17:32:08 by cdapurif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,15 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 DIR =	containers/stack \
-		containers/vector
+		containers/vector \
+		containers/map
 
 BINARY =	ft_stack \
 			std_stack \
 			ft_vector \
-			std_vector
+			std_vector \
+			ft_map \
+			std_map
 
 SRCS = $(foreach dir,$(DIR),$(dir)/main.cpp)
 
@@ -34,7 +37,7 @@ STD_OBJS = $(SRCS:main.cpp=std_main.o)
 
 all: $(NAME)
 
-$(NAME): stack vector
+$(NAME): stack vector map
 
 ############################# STACK RULES #############################
 stack: ft_stack std_stack

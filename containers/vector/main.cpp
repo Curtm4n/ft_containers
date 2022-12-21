@@ -6,13 +6,15 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 15:02:07 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:29:49 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 #include "../../utils/Colors.hpp"
+
 #include <vector>
+#include <iostream>
 
 #if NSP
 # define NAMESPACE std

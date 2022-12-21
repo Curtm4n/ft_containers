@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/16 14:10:23 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:37:28 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
             //typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
             //COMPARISON CLASS
-            class value_compare : public binary_function<value_type,value_type,bool>    //NEED TO UNDERSTAND THIS EMBODIED CLASS
+            class value_compare : public std::binary_function<value_type,value_type,bool>    //NEED TO UNDERSTAND THIS EMBODIED CLASS
             {
                 
                 friend class map;
@@ -63,14 +63,17 @@ namespace ft
             };
 
             //CONSTRUCTORS
-            explicit map(const Compare& comp = Compare(), const Allocator& = Allocator());                                      //Default Constructor
+            explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) : tree(comp, alloc) {}          //Default Constructor       //DONE
+
             template <class InputIterator>
                 map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());  //Range Constructor
+
             map(const map<Key,T,Compare,Allocator>& x);                                                                         //Copy Constructor
+
             map<Key,T,Compare,Allocator>&   operator=(const map<Key,T,Compare,Allocator>& x);                                   //Assignement operator
 
             //DESTRUCTOR
-            ~map();
+            ~map()  {}
 
             //ITERATORS
             //iterator                begin();
@@ -106,8 +109,8 @@ namespace ft
             value_compare   value_comp() const;
 
             //MAP OPERATIONS
-            iterator                            find(const key_type& x);
-            const_iterator                      find(const key_type& x) const;
+            //iterator                            find(const key_type& x);
+            //const_iterator                      find(const key_type& x) const;
             size_type                           count(const key_type& x) const;
             //iterator                            lower_bound(const key_type& x);
             //const_iterator                      lower_bound(const key_type& x) const;
@@ -118,10 +121,10 @@ namespace ft
 
         private:
 
-            //typedef AVL_tree<key_type, value_type, std::_Select1st<value_type>, key_compare, allocator_type>    avl_tree;
+            typedef AVL_tree<key_type, value_type, std::_Select1st<value_type>, key_compare, allocator_type>    avl_tree;
 
             //The actual tree structure
-            //avl_tree    tree;
+            avl_tree    tree;
     };
 
     //RELATIONAL OPERATORS
