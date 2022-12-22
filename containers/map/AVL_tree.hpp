@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/22 16:03:46 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/22 17:12:23 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,19 +198,30 @@ namespace ft
                 }
             }
 
-            /*pair<iterator, bool>    insert_unique(const Value& v)
+            pair<base_ptr, base_ptr>    get_insert_pos(const Key& k)
             {
-                base_ptr    x = M_root();
-                base_ptr    y = &M_impl.header;
+                link_type   x = M_begin();
+                base_ptr    y = M_end();
                 bool        comp = true;
 
                 while (x)
                 {
                     y = x;
-                    comp = M_impl.comp(v, S_key(x));
+                    comp = M_impl.comp(k, S_key(x));
                     x = comp ? S_left(x) : S_right(x);
                 }
-            }*/
+                iterator j = iterator(y);
+                if (comp) // left (new node < parent node)
+                {
+                    if (j == iterator(M_impl.header.left)) // leftmost
+                        return (pair<base_ptr, base_ptr>(x, y));
+                    else
+                        --j;
+                }
+                if (M_impl.comp(S_key(j.node), k))
+                    return (pair<base_ptr, base_ptr>(x, y));
+                return (pair<base_ptr, base_ptr>(j.node, 0));
+            }
 
         public:
 
