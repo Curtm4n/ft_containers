@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/21 19:11:44 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/22 16:03:46 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include <memory>
 # include <cstddef>
+# include <cassert>
 # include <functional>
 
 namespace ft
@@ -116,6 +117,100 @@ namespace ft
 
             static base_ptr         S_maximum(base_ptr x)       { return (node_base::maximum(x)); }
             static const_base_ptr   S_maximum(const_base_ptr x) { return (node_base::maximum(x)); }
+
+            
+            // [x] is the new node to insert
+            // [p] is the parent of [x]
+            void    insert_and_rebalance(bool insertLeft, base_ptr x, base_ptr p)
+            {
+                // construct the new node to insert
+                x->parent = p;
+                x->left = 0;
+                x->right = 0;
+                x->balFactor = 0;
+
+                if (insertLeft)
+                {
+                    p->left = x;
+                    if (p == &M_impl.header) // if p is header (x is root)
+                    {
+                        M_impl.header.parent = x;
+                        M_impl.header.right = x;
+                    }
+                    else if (p == M_impl.header.left) // if p is son of header (leftmost node)
+                        M_impl.header.left = x;
+                }
+                else
+                {
+                    p->right = x;
+                    if (p == M_impl.header.right)
+                        M_impl.header.right = x;
+                }
+
+                // rebalance
+                while (x != M_root())
+                {
+                    switch (x->parent->balFactor)
+                    {
+                        case 0:
+                            // same size right and left subtree of x parent
+                            // one of them will become taller after inserting the node
+                            x->parent->balFactor = (x == x->parent->left) ? -1 : 1;
+                            x = x->parent; // percolate up the path
+                            break ;
+                        
+                        case 1:
+                            // right subtree is taller
+                            if (x == x->parent->left) // if inserted node to the left
+                                x->parent->balFactor = 0;
+                            else
+                            {
+                                // if inserted node in the right, become more taller probably
+                                // for shortening it, we need to rotate it
+                                if (x->balFactor == -1) // x have a taller left, do a right_left rotation to shorten the left
+                                    rotate_right_left(x->parent, M_root());
+                                else // just do a left rotation to shorten the right
+                                    rotate_left(x->parent, M_root());
+                            }
+                            // adjust once is enough
+                            return ;
+
+                        case -1:
+                            // -1 mean that x parent have a taller left subtree
+                            if (x == x->parent->left)
+                            {
+                                // if inserted node to the left, become more taller probably
+                                // for shortening it, we need to rotate it
+                                if (x->balFactor == 1) // x have a taller right, do a left_right rotation to shortening the right
+                                    rotate_left_right(x->parent, M_root());
+                                else // just do a right rotation to shorten the left
+                                    rotate_right(x->parent, M_root());
+                            }
+                            else
+                                x->parent->balFactor = 0;
+                            
+                            // adjust once is enough
+                            return ;
+
+                        default:
+                            assert(false);
+                    }
+                }
+            }
+
+            /*pair<iterator, bool>    insert_unique(const Value& v)
+            {
+                base_ptr    x = M_root();
+                base_ptr    y = &M_impl.header;
+                bool        comp = true;
+
+                while (x)
+                {
+                    y = x;
+                    comp = M_impl.comp(v, S_key(x));
+                    x = comp ? S_left(x) : S_right(x);
+                }
+            }*/
 
         public:
 
