@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/22 17:12:23 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/23 13:56:42 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,29 +198,52 @@ namespace ft
                 }
             }
 
-            pair<base_ptr, base_ptr>    get_insert_pos(const Key& k)
+            pair<iterator, bool>    insert_unique(const Value& v)
             {
-                link_type   x = M_begin();
+                base_ptr    x = M_begin();
                 base_ptr    y = M_end();
                 bool        comp = true;
 
                 while (x)
                 {
                     y = x;
-                    comp = M_impl.comp(k, S_key(x));
+                    comp = M_impl.comp(KeyOfValue()(v), S_key(x));
                     x = comp ? S_left(x) : S_right(x);
                 }
                 iterator j = iterator(y);
-                if (comp) // left (new node < parent node)
+                if (comp) // left (v < parent node)
                 {
                     if (j == iterator(M_impl.header.left)) // leftmost
-                        return (pair<base_ptr, base_ptr>(x, y));
+                        return (pair<iterator, bool>(M_insert(x, y, v), true));
                     else
                         --j;
                 }
-                if (M_impl.comp(S_key(j.node), k))
-                    return (pair<base_ptr, base_ptr>(x, y));
-                return (pair<base_ptr, base_ptr>(j.node, 0));
+                if (M_impl.comp(S_key(j.node), KeyOfValue()(v)))
+                    return (pair<iterator, bool>(M_insert(x, y, v), true));
+                return (pair<iterator, bool>(j, false));
+            }
+
+            // [x] is the child of [p],
+            // [x] is always null passed from insertUnique, no need to consider in theory
+            // [p] is the parent of [x]
+            iterator    M_insert(base_ptr x, base_ptr p, const Value& v)
+            {
+                bool insertLeft = (x || p == M_end() || M_impl.comp(KeyOfValue()(v), S_key(p)));
+
+                base_ptr z = create_node(v);
+                insert_and_rebalance(insertLeft, z, p);
+                ++M_impl.node_count;
+                return (iterator(z));
+            }
+
+            link_type   create_node(const Value& v)
+            {
+                link_type   z;
+
+                z = M_alloc.allocate(1);
+                M_alloc.construct(z, v);
+
+                return (z);
             }
 
         public:
