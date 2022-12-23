@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 17:34:48 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:46:23 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,6 +407,15 @@ namespace ft
             AVL_tree&   operator=(const AVL_tree& x);
 
             ~AVL_tree() { M_erase(M_begin()); }
+
+            iterator                begin()         { return (iterator(M_impl.header.left)); }
+            const_iterator          begin() const   { return (const_iterator(M_impl.header.left)); }
+            iterator                end()           { return (iterator(M_impl.header.right)); }
+            const_iterator          end() const     { return (const_iterator(M_impl.header.right)); }
+            reverse_iterator        rbegin()        { return (reverse_iterator(end())); }
+            const_reverse_iterator  rbegin() const  { return (const_reverse_iterator(end())); }
+            reverse_iterator        rend()          { return (reverse_iterator(begin())); }
+            const_reverse_iterator  rend() const    { return (const_reverse_iterator(begin())); }
 
     };
 }
