@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 13:56:42 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:07:50 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ namespace ft
             }
 
             // [x] is the child of [p],
-            // [x] is always null passed from insertUnique, no need to consider in theory
+            // [x] is always null passed from insert_unique, no need to consider in theory
             // [p] is the parent of [x]
             iterator    M_insert(base_ptr x, base_ptr p, const Value& v)
             {
@@ -243,6 +243,142 @@ namespace ft
                 z = M_alloc.allocate(1);
                 M_alloc.construct(z, v);
 
+                return (z);
+            }
+
+            // erase node [z] and return the deleted node
+            base_ptr    erase_and_rebalance(base_ptr z)
+            {
+                base_ptr    y = z;
+                base_ptr    x = 0;
+                base_ptr    xParent = 0;
+
+                // x is the child of y
+                if (!y->left)
+                    x = y->right;
+                else if (!y->right)
+                    x = y->left;
+                else
+                {
+                    // y has two children
+                    // find the successor
+                    y = y->right;
+                    while (y->left)
+                        y = y->left;
+                    x = y->right; // y has no left child, so x is the successor 
+                }
+
+                if (y != z) // z has two children
+                {
+                    // we make the successor y to replace z
+                    // z will disconnect to its children and y link to them
+                    z->left->parent = y;
+                    y->left = z->left;
+                    if (y != z->right)
+                    {
+                        // y will be moved, need to link its child to its parent
+                        xParent = y->parent;
+                        if (x)
+                            x->parent = y->parent;
+                        y->parent->left = x;
+                        y->right = z->right;
+                        z->right->parent = y;
+                    }
+                    else // y == z->right, mean y has no left child and x is the right of y
+                        xParent = y;
+
+                    // link z parent to y
+                    if (M_root() == z)
+                        M_root() = y;
+                    else if (z->parent->left == z)
+                        z->parent->left = y;
+                    else
+                        z->parent->right = y;
+                    y->parent = z->parent;
+                    y->balFactor = z->balFactor;
+                }
+                else // mean that z has one child or none and y == z
+                {
+                    // x become the successor
+                    xParent = y->parent;
+                    if (x)
+                        x->parent = y->parent;
+                    if (M_root() == z)
+                        M_root() = x;
+                    else if (z->parent->left == z)
+                        z->parent->left = x;
+                    else
+                        z->parent->right = x;
+                    if (M_leftmost() == z)
+                    {
+                        if (!z->right)
+                            M_leftmost() = z->parent;
+                        else
+                            M_leftmost() = node_base::minimum(x);
+                    }
+                    if (M_rightmost() == z)
+                    {
+                        if (!z->left)
+                            M_rightmost() = z->parent;
+                        else
+                            M_rightmost() = node_base::maximum(x);
+                    }
+                }
+
+                // rebalance
+                while (x != M_root())
+                {
+                    switch (xParent->balFactor)
+                    {
+                        case 0:
+                            xParent->balFactor = (x == xParent->right) ? -1 : 1;
+                            return (z);
+                        case -1:
+                            //left subtree taller
+                            if (x == xParent->left) // erase the node in the left, balance just right
+                            {
+                                xParent->balFactor = 0;
+                                x = xParent;
+                                xParent = xParent->parent;
+                            }
+                            else // erase the node in the right, need to shorten the left
+                            {
+                                base_ptr a = xParent->left;
+                                if (a->balFactor == 1) // check whether need a double rotation
+                                    rotate_left_right(a, M_root());
+                                else
+                                    rotate_right(xParent, M_root());
+                                x = xParent->parent;
+                                xParent = xParent->parent->parent;
+                                if (x->balFactor == 1)
+                                    return (z);
+                            }
+                            break ;
+                        case 1:
+                            // right subtree taller
+                            if (x == xParent->right) // erase the node in the right, balance just right
+                            {
+                                xParent->balFactor = 0;
+                                x = xParent;
+                                xParent = xParent->parent;
+                            }
+                            else
+                            {
+                                base_ptr a = xParent->right;
+                                if (a->balFactor == -1) // check whether need a double rotation
+                                    rotate_right_left(a, M_root());
+                                else
+                                    rotate_left(xParent, M_root());
+                                x = xParent->parent;
+                                xParent = xParent->parent->parent;
+                                if (x->balFactor == -1)
+                                    return (z);
+                            }
+                            break ;
+                        default:
+                            assert(false);
+                    }
+                }
                 return (z);
             }
 
