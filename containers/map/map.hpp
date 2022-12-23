@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 18:04:11 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/23 18:19:57 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,11 @@ namespace ft
             const_reverse_iterator  rend() const    { return (tree.rend()); }   //DONE
 
             //CAPACITY
-            bool        empty() const;
-            size_type   size() const;
-            size_type   max_size() const;
+            bool        empty() const       { return (tree.empty()); }      //DONE
+            size_type   size() const        { return (tree.size()); }       //DONE
+            size_type   max_size() const    { return (tree.max_size()); }   //DONE
+
+            allocator_type  get_allocator() const   { return (tree.get_allocator()); }  //DONE
 
             //ELEMENT ACCESS
             T&  operator[](const key_type& x);
