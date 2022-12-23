@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 17:07:50 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:34:48 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,12 +382,31 @@ namespace ft
                 return (z);
             }
 
+            void    M_erase(link_type x) // erase recursively (all the children of x and their children etc...) without rebalancing
+            {
+                while (x)
+                {
+                    M_erase(S_right(x));
+                    link_type y = S_left(x);
+                    M_drop_node(x);
+                    x = y;
+                }
+            }
+
+            void    M_drop_node(link_type x)
+            {
+                M_alloc.destroy(x);
+                M_alloc.deallocate(x, 1);
+            }
+
         public:
 
             AVL_tree()                                                                                                      {}
             AVL_tree(const Compare& comp, const allocator_type& alloc = allocator_type()) : M_impl(comp), M_alloc(alloc)    {}
+            AVL_tree(const AVL_tree& x);
+            AVL_tree&   operator=(const AVL_tree& x);
 
-            ~AVL_tree() {}
+            ~AVL_tree() { M_erase(M_begin()); }
 
     };
 }
