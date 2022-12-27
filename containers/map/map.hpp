@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 18:19:57 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:16:02 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ namespace ft
             typedef typename Allocator::const_pointer       const_pointer;
 
             //COMPARISON CLASS
-            class value_compare : public std::binary_function<value_type,value_type,bool>    //NEED TO UNDERSTAND THIS EMBODIED CLASS
+            class value_compare : public std::binary_function<value_type,value_type,bool>
             {
                 
                 friend class map;
@@ -75,14 +75,17 @@ namespace ft
 
 
             //CONSTRUCTORS
-            explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) : tree(comp, alloc) {}          //Default Constructor       //DONE
+            explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) : tree(comp, alloc) {}                              //Default Constructor       //DONE
 
             template <class InputIterator>
-                map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());  //Range Constructor
+            map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& alloc = Allocator()) : tree(comp, alloc) //Range Constructor         //DONE
+            {
+                insert(first, last);
+            }
 
-            map(const map<Key,T,Compare,Allocator>& x);                                                                         //Copy Constructor
+            map(const map<Key,T,Compare,Allocator>& x);                                                                                             //Copy Constructor
 
-            map<Key,T,Compare,Allocator>&   operator=(const map<Key,T,Compare,Allocator>& x);                                   //Assignement operator
+            map<Key,T,Compare,Allocator>&   operator=(const map<Key,T,Compare,Allocator>& x);                                                       //Assignement operator
 
             //DESTRUCTOR
             ~map()  {}  //DONE
@@ -105,33 +108,33 @@ namespace ft
             allocator_type  get_allocator() const   { return (tree.get_allocator()); }  //DONE
 
             //ELEMENT ACCESS
-            T&  operator[](const key_type& x);
+            T&  operator[](const key_type& x)   { return ((*((insert(make_pair(x, T()))).first)).second); } //DONE
 
             //MODIFIERS
-            pair<iterator, bool>    insert(const value_type& x);
-            iterator                insert(iterator position, const value_type& x);
+            pair<iterator, bool>    insert(const value_type& x)                     { return (tree.insert(x)); }            //DONE
+            iterator                insert(iterator position, const value_type& x)  { return (tree.insert(position, x)); }  //DONE
             template <class InputIterator>
-                void                insert(InputIterator first, InputIterator last);
-            void                    erase(iterator position);
-            size_type               erase(const key_type& x);
-            void                    erase(iterator first, iterator last);
+                void                insert(InputIterator first, InputIterator last) { tree.insert(first, last); }           //DONE
+            void                    erase(iterator position)                        { tree.erase(position); }               //DONE
+            size_type               erase(const key_type& x)                        { return (tree.erase(x)); }             //DONE
+            void                    erase(iterator first, iterator last)            { tree.erase(first, last); }            //DONE
             void                    swap(map<Key,T,Compare,Allocator>&);
-            void                    clear();
+            void                    clear()                                         { tree.clear(); }                       //DONE
 
             //OBSERVERS
-            key_compare     key_comp() const;
-            value_compare   value_comp() const;
+            key_compare     key_comp() const    { return (tree.key_comp()); }   //DONE
+            value_compare   value_comp() const  { return (tree.key_comp()); }   //DONE
 
             //MAP OPERATIONS
-            iterator                            find(const key_type& x);
-            const_iterator                      find(const key_type& x) const;
-            size_type                           count(const key_type& x) const;
-            iterator                            lower_bound(const key_type& x);
-            const_iterator                      lower_bound(const key_type& x) const;
-            iterator                            upper_bound(const key_type& x);
-            const_iterator                      upper_bound(const key_type& x) const;
-            pair<iterator,iterator>             equal_range(const key_type& x);
-            pair<const_iterator,const_iterator> equal_range(const key_type& x) const;
+            iterator                            find(const key_type& x)                 { return (tree.find(x)); }                          //DONE
+            const_iterator                      find(const key_type& x) const           { return (tree.find(x)); }                          //DONE
+            size_type                           count(const key_type& x) const          { return (tree.find(x) != tree.end() ? 1 : 0); }    //DONE
+            iterator                            lower_bound(const key_type& x)          { return (tree.lower_bound(x)); }                   //DONE
+            const_iterator                      lower_bound(const key_type& x) const    { return (tree.lower_bound(x)); }                   //DONE
+            iterator                            upper_bound(const key_type& x)          { return (tree.upper_bound(x)); }                   //DONE
+            const_iterator                      upper_bound(const key_type& x) const    { return (tree.upper_bound(x)); }                   //DONE
+            pair<iterator,iterator>             equal_range(const key_type& x)          { return (tree.equal_range(x)); }                   //DONE
+            pair<const_iterator,const_iterator> equal_range(const key_type& x) const    { return (tree.equal_range(x)); }                   //DONE
     };
 
     //RELATIONAL OPERATORS

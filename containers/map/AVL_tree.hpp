@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/23 18:15:57 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:12:20 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,13 +401,16 @@ namespace ft
 
         public:
 
+            //CONSTRUCTORS
             AVL_tree()                                                                                                      {}
             AVL_tree(const Compare& comp, const allocator_type& alloc = allocator_type()) : M_impl(comp), M_alloc(alloc)    {}
             AVL_tree(const AVL_tree& x);
             AVL_tree&   operator=(const AVL_tree& x);
 
+            //DESTRUCTOR
             ~AVL_tree() { M_erase(M_begin()); }
 
+            //ITERATORS
             iterator                begin()         { return (iterator(M_impl.header.left)); }
             const_iterator          begin() const   { return (const_iterator(M_impl.header.left)); }
             iterator                end()           { return (iterator(M_impl.header.right)); }
@@ -417,12 +420,163 @@ namespace ft
             reverse_iterator        rend()          { return (reverse_iterator(begin())); }
             const_reverse_iterator  rend() const    { return (const_reverse_iterator(begin())); }
 
+            //CAPACITY
             bool        empty() const       { return (M_impl.node_count == 0); }
             size_type   size() const        { return (M_impl.node_count); }
             size_type   max_size() const    { return (M_alloc.max_size()); }
 
             allocator_type  get_allocator() const   { return (allocator_type()); }
 
+            //MODIFIERS
+            pair<iterator, bool>    insert(const value_type& x) { return (insert_unique(x)); }
+            
+            iterator                insert(iterator position, const value_type& x) // SHOULD BE CHECKED
+            {
+                (void)position;
+                pair<iterator, bool> z = insert_unique(x);
+                return (z.first);
+            }
+
+            template <class InputIterator>
+            void                    insert(InputIterator first, InputIterator last)
+            {
+                while (first != last)
+                    insert_unique(*first++);
+            }
+
+            void                    erase(iterator position)
+            {
+                base_ptr    y = erase_and_rebalance(position.node);
+                M_drop_node(y);
+                --M_impl.node_count;
+            }
+
+            size_type               erase(const Key& x)
+            {
+                pair<iterator, iterator> p = equal_range(x);
+                size_type old = size();
+                erase(p.first, p.second);
+                return (old - size());
+            }
+
+            void                    erase(iterator first, iterator last)
+            {
+                if (first == begin() && last == end())
+                    clear();
+                else
+                {
+                    while (first != last)
+                        erase(first++);
+                }
+            }
+
+            void                    swap(AVL_tree& x);
+
+            void                    clear()
+            {
+                M_erase(M_begin());
+                M_impl.reset();
+            }
+
+            //OBSERVERS
+            Compare key_comp() const    { return (M_impl.comp); }
+
+            //MAP OPERATIONS
+            iterator                            find(const Key& x)
+            {
+                iterator j = lower_bound(x);
+                // j will be end() if cannot find
+                // key(j) probably less than k
+                return (j == end() || M_impl.comp(x, S_key(j.node)) ? end() : j);
+            }
+
+            const_iterator                      find(const Key& x) const
+            {
+                const_iterator j = lower_bound(x);
+                return (j == end() || M_impl.comp(x, S_key(j.node)) ? end() : j);
+            }
+
+            iterator                            lower_bound(const Key& k)
+            {
+                base_ptr y = M_end();
+                base_ptr x = M_root();
+
+                while (x)
+                {
+                    if (!(M_impl.comp(S_key(x), k)))
+                    {
+                        y = x;
+                        x = S_left(x);
+                    }
+                    else
+                        x = S_right(x);
+                }
+                return (iterator(y));
+            }
+
+            const_iterator                      lower_bound(const Key& k) const
+            {
+                const_base_ptr y = M_end();
+                const_base_ptr x = M_root();
+
+                while (x)
+                {
+                    if (!(M_impl.comp(S_key(x), k)))
+                    {
+                        y = x;
+                        x = S_left(x);
+                    }
+                    else
+                        x = S_right(x);
+                }
+                return (const_iterator(y));
+            }
+
+            iterator                            upper_bound(const Key& k)
+            {
+                base_ptr y = M_end();
+                base_ptr x = M_root();
+
+                while (x)
+                {
+                    if (M_impl.comp(S_key(x), k))
+                    {
+                        y = x;
+                        x = S_left(x);
+                    }
+                    else
+                        x = S_right(x);
+                }
+                return (iterator(y));
+            }
+
+            const_iterator                      upper_bound(const Key& k) const
+            {
+                const_base_ptr y = M_end();
+                const_base_ptr x = M_root();
+
+                while (x)
+                {
+                    if (M_impl.comp(S_key(x), k))
+                    {
+                        y = x;
+                        x = S_left(x);
+                    }
+                    else
+                        x = S_right(x);
+                }
+                return (const_iterator(y));
+            }
+
+            pair<iterator,iterator>             equal_range(const Key& k)
+            {
+                return (pair<iterator, iterator>(lower_bound(k), upper_bound(k)));
+            }
+
+            pair<const_iterator,const_iterator> equal_range(const Key& k) const
+            {
+                return (pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k)));
+            }
     };
 }
 

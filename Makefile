@@ -6,7 +6,7 @@
 #    By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 09:51:12 by cdapurif          #+#    #+#              #
-#    Updated: 2022/12/21 17:32:08 by cdapurif         ###   ########.fr        #
+#    Updated: 2022/12/27 11:50:09 by cdapurif         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,10 +63,10 @@ std_vector: $(STD_OBJS)
 map: ft_map std_map
 
 ft_map: $(FT_OBJS) $(UTILS_OBJS)
-	$(CXX) containers/map/ft_main.o containers/map/tree.o -o $@
+	$(CXX) containers/map/tree.o containers/map/ft_main.o -o $@
 
 std_map: $(STD_OBJS) $(UTILS_OBJS)
-	$(CXX) containers/map/std_main.o containers/map/tree.o -o $@
+	$(CXX) containers/map/tree.o containers/map/std_main.o -o $@
 #######################################################################
 
 %.o:%.cpp

@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/19 16:35:31 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:39:35 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ namespace ft
     template <class Tp>
     struct ConstItMap
     {
-        typedef Tp  value_type;
-        typedef Tp* pointer;
-        typedef Tp& reference;
+        typedef Tp          value_type;
+        typedef const Tp*   pointer;
+        typedef const Tp&   reference;
         
         typedef ItMap<Tp>   iterator;
 
@@ -93,7 +93,7 @@ namespace ft
 
         typedef ConstItMap<Tp>              Self;
         typedef node_base::const_base_ptr   base_ptr;
-        typedef node<Tp>*                   link_type;
+        typedef const node<Tp>*             link_type;
 
         ConstItMap() : node()                           {}
         ConstItMap(base_ptr x) : node(x)                {}
@@ -101,8 +101,8 @@ namespace ft
 
         iterator    _const_cast() const { return iterator(const_cast<typename iterator::base_ptr>(this->node)); }
 
-        reference   operator*() const   { return(*(static_cast<link_type>(node)->getDataPtr())); }
-        pointer     operator->() const  { return(static_cast<link_type>(node)->getDataPtr()); }
+        reference   operator*() const   { return (*(static_cast<link_type>(node)->getDataPtr())); }
+        pointer     operator->() const  { return (static_cast<link_type>(node)->getDataPtr()); }
 
         Self&   operator++()
         {
