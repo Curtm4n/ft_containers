@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 19:12:20 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 22:00:46 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,9 +254,9 @@ namespace ft
                 base_ptr    xParent = 0;
 
                 // x is the child of y
-                if (!y->left)
+                if (y->left == 0)
                     x = y->right;
-                else if (!y->right)
+                else if (y->right == 0)
                     x = y->left;
                 else
                 {
@@ -295,7 +295,7 @@ namespace ft
                     else
                         z->parent->right = y;
                     y->parent = z->parent;
-                    y->balFactor = z->balFactor;
+                    y->balFactor = z->balFactor; //xParent balFactor passe apres cette ligne de 0 a -2... xParent == y->parent a ce moment la
                 }
                 else // mean that z has one child or none and y == z
                 {
@@ -311,14 +311,14 @@ namespace ft
                         z->parent->right = x;
                     if (M_leftmost() == z)
                     {
-                        if (!z->right)
+                        if (z->right == 0)
                             M_leftmost() = z->parent;
                         else
                             M_leftmost() = node_base::minimum(x);
                     }
                     if (M_rightmost() == z)
                     {
-                        if (!z->left)
+                        if (z->left == 0)
                             M_rightmost() = z->parent;
                         else
                             M_rightmost() = node_base::maximum(x);
@@ -413,8 +413,8 @@ namespace ft
             //ITERATORS
             iterator                begin()         { return (iterator(M_impl.header.left)); }
             const_iterator          begin() const   { return (const_iterator(M_impl.header.left)); }
-            iterator                end()           { return (iterator(M_impl.header.right)); }
-            const_iterator          end() const     { return (const_iterator(M_impl.header.right)); }
+            iterator                end()           { return (iterator(&M_impl.header)); }
+            const_iterator          end() const     { return (const_iterator(&M_impl.header)); }
             reverse_iterator        rbegin()        { return (reverse_iterator(end())); }
             const_reverse_iterator  rbegin() const  { return (const_reverse_iterator(end())); }
             reverse_iterator        rend()          { return (reverse_iterator(begin())); }
@@ -447,7 +447,7 @@ namespace ft
             void                    erase(iterator position)
             {
                 base_ptr    y = erase_and_rebalance(position.node);
-                M_drop_node(y);
+                M_drop_node(static_cast<link_type>(y));
                 --M_impl.node_count;
             }
 

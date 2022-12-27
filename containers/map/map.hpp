@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 19:16:02 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 20:24:01 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ namespace ft
             allocator_type  get_allocator() const   { return (tree.get_allocator()); }  //DONE
 
             //ELEMENT ACCESS
-            T&  operator[](const key_type& x)   { return ((*((insert(make_pair(x, T()))).first)).second); } //DONE
+            T&  operator[](const key_type& x)   { return ((*((insert(ft::make_pair(x, T()))).first)).second); } //DONE
 
             //MODIFIERS
             pair<iterator, bool>    insert(const value_type& x)                     { return (tree.insert(x)); }            //DONE

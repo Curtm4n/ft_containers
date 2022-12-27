@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 11:43:55 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/21 17:41:14 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/27 20:26:33 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ namespace ft
     */
     void    rotate_left_right(node_base* a, node_base* & root)
     {
-        assert(a->left && a->left->right);
+        //assert(a->left && a->left->right);
 
         node_base* b = a->left;
         node_base* c = b->right;
@@ -356,7 +356,7 @@ namespace ft
     */
     void    rotate_right_left(node_base* a, node_base* & root)
     {
-        assert(a->right && a->right->left);
+        //assert(a->right && a->right->left);
 
         node_base* b = a->right;
         node_base* c = b->left;
