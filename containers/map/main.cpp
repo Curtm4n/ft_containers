@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 17:27:15 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 19:38:05 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/04 18:05:55 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ int main(void)
 
         std::cout << (*map1.find(10)).second << std::endl;
         std::cout << (*map1.end()).second << std::endl;
+    }
+
+    std::cout << Green << "Test time" << Reset << std::endl;
+    {
+        NAMESPACE::map<int, std::string>    map1;
+
+        for (int i = 0; i < 10000000; ++i)
+            map1[i];
     }
 
     return (0);
