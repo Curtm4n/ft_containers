@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 11:39:35 by cdapurif         ###   ########.fr       */
+/*   Updated: 2022/12/30 16:22:17 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ namespace ft
         typedef node_base::base_ptr base_ptr;
         typedef node<Tp>*           link_type;
 
-        ItMap() : node()            {}
-        ItMap(base_ptr x) : node(x) {}
+        ItMap() : _node()            {}
+        ItMap(base_ptr x) : _node(x) {}
 
-        reference   operator*() const   { return(*(static_cast<link_type>(node)->getDataPtr())); }
-        pointer     operator->() const  { return(static_cast<link_type>(node)->getDataPtr()); }
+        reference   operator*() const   { return(*(static_cast<link_type>(_node)->getDataPtr())); }
+        pointer     operator->() const  { return(static_cast<link_type>(_node)->getDataPtr()); }
 
         Self&   operator++()
         {
-            this->node = node_increment(this->node);
+            this->_node = node_increment(this->_node);
             return (*this);
         }
 
@@ -55,13 +55,13 @@ namespace ft
         {
             Self    tmp(*this);
 
-            this->node = node_increment(this->node);
+            this->_node = node_increment(this->_node);
             return (tmp);
         }
 
         Self&   operator--()
         {
-            this->node = node_decrement(this->node);
+            this->_node = node_decrement(this->_node);
             return (*this);
         }
 
@@ -69,14 +69,14 @@ namespace ft
         {
             Self    tmp(*this);
 
-            this->node = node_decrement(this->node);
+            this->_node = node_decrement(this->_node);
             return (tmp);
         }
 
-        friend bool operator==(const Self& x, const Self& y)    { return (x.node == y.node); }
-        friend bool operator!=(const Self& x, const Self& y)    { return (x.node != y.node); }
+        friend bool operator==(const Self& x, const Self& y)    { return (x._node == y._node); }
+        friend bool operator!=(const Self& x, const Self& y)    { return (x._node != y._node); }
 
-        base_ptr    node;
+        base_ptr    _node;
     };
 
     template <class Tp>
@@ -95,18 +95,18 @@ namespace ft
         typedef node_base::const_base_ptr   base_ptr;
         typedef const node<Tp>*             link_type;
 
-        ConstItMap() : node()                           {}
-        ConstItMap(base_ptr x) : node(x)                {}
-        ConstItMap(const iterator& x) : node(x.node)    {}
+        ConstItMap() : _node()                           {}
+        ConstItMap(base_ptr x) : _node(x)                {}
+        ConstItMap(const iterator& x) : _node(x._node)    {}
 
-        iterator    _const_cast() const { return iterator(const_cast<typename iterator::base_ptr>(this->node)); }
+        iterator    _const_cast() const { return iterator(const_cast<typename iterator::base_ptr>(this->_node)); }
 
-        reference   operator*() const   { return (*(static_cast<link_type>(node)->getDataPtr())); }
-        pointer     operator->() const  { return (static_cast<link_type>(node)->getDataPtr()); }
+        reference   operator*() const   { return (*(static_cast<link_type>(_node)->getDataPtr())); }
+        pointer     operator->() const  { return (static_cast<link_type>(_node)->getDataPtr()); }
 
         Self&   operator++()
         {
-            this->node = node_increment(this->node);
+            this->_node = node_increment(this->_node);
             return (*this);
         }
 
@@ -114,13 +114,13 @@ namespace ft
         {
             Self    tmp(*this);
 
-            this->node = node_increment(this->node);
+            this->_node = node_increment(this->_node);
             return (tmp);
         }
 
         Self&   operator--()
         {
-            this->node = node_decrement(this->node);
+            this->_node = node_decrement(this->_node);
             return (*this);
         }
 
@@ -128,14 +128,14 @@ namespace ft
         {
             Self    tmp(*this);
 
-            this->node = node_decrement(this->node);
+            this->_node = node_decrement(this->_node);
             return (tmp);
         }
 
-        friend bool operator==(const Self& x, const Self& y)    { return (x.node == y.node); }
-        friend bool operator!=(const Self& x, const Self& y)    { return (x.node != y.node); }
+        friend bool operator==(const Self& x, const Self& y)    { return (x._node == y._node); }
+        friend bool operator!=(const Self& x, const Self& y)    { return (x._node != y._node); }
 
-        base_ptr    node;
+        base_ptr    _node;
     };
 }
 

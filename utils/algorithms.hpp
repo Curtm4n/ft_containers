@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 15:14:04 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/06 16:10:03 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:32:06 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ namespace ft
                 return (true);
         }
         return (first2 != last2);
+    }
+
+    template <class T>
+    void    swap(T& a, T& b)
+    {
+        T c(a);
+        
+        a = b;
+        b = c;
     }
 }
 

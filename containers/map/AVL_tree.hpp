@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 22:00:46 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:45:33 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "node.hpp"
 # include "ItMap.hpp"
 # include "../../utils/iterator.hpp"
+# include "../../utils/algorithms.hpp"
 
 # include <memory>
 # include <cstddef>
@@ -218,7 +219,7 @@ namespace ft
                     else
                         --j;
                 }
-                if (M_impl.comp(S_key(j.node), KeyOfValue()(v)))
+                if (M_impl.comp(S_key(j._node), KeyOfValue()(v)))
                     return (pair<iterator, bool>(M_insert(x, y, v), true));
                 return (pair<iterator, bool>(j, false));
             }
@@ -295,11 +296,10 @@ namespace ft
                     else
                         z->parent->right = y;
                     y->parent = z->parent;
-                    y->balFactor = z->balFactor; //xParent balFactor passe apres cette ligne de 0 a -2... xParent == y->parent a ce moment la
+                    y->balFactor = z->balFactor;
                 }
                 else // mean that z has one child or none and y == z
                 {
-                    // x become the successor
                     xParent = y->parent;
                     if (x)
                         x->parent = y->parent;
@@ -345,7 +345,7 @@ namespace ft
                             {
                                 base_ptr a = xParent->left;
                                 if (a->balFactor == 1) // check whether need a double rotation
-                                    rotate_left_right(a, M_root());
+                                    rotate_left_right(xParent, M_root()); //GROSSE MODIF ICI !!!
                                 else
                                     rotate_right(xParent, M_root());
                                 x = xParent->parent;
@@ -366,7 +366,7 @@ namespace ft
                             {
                                 base_ptr a = xParent->right;
                                 if (a->balFactor == -1) // check whether need a double rotation
-                                    rotate_right_left(a, M_root());
+                                    rotate_right_left(xParent, M_root()); //GROSSE MODIF ICI !!!
                                 else
                                     rotate_left(xParent, M_root());
                                 x = xParent->parent;
@@ -399,13 +399,50 @@ namespace ft
                 M_alloc.deallocate(x, 1);
             }
 
+            link_type   copy_tree(const AVL_tree& x)
+            {
+                link_type root = copy_node(x.M_begin(), &M_impl.header);
+                M_impl.node_count = x.M_impl.node_count;
+                M_leftmost() = S_minimum(root);
+                M_rightmost() = S_maximum(root);
+                return (root);
+            }
+
+            link_type   copy_node(const_link_type root, base_ptr parent)
+            {
+                if (root == 0)
+                    return (0);
+                link_type x = create_node(root->data);
+
+                x->parent = parent;
+                x->left = copy_node(S_left(root), x);
+                x->right = copy_node(S_right(root), x);
+                x->balFactor = root->balFactor;
+                return (x);
+            }
+
         public:
 
             //CONSTRUCTORS
             AVL_tree()                                                                                                      {}
             AVL_tree(const Compare& comp, const allocator_type& alloc = allocator_type()) : M_impl(comp), M_alloc(alloc)    {}
-            AVL_tree(const AVL_tree& x);
-            AVL_tree&   operator=(const AVL_tree& x);
+            AVL_tree(const AVL_tree& x)
+            {
+                if (x.M_root())
+                    M_impl.header.parent = copy_tree(x); // WE'LL CREATE A COPY OF ALL NODES STARTING FROM ROOT
+                M_alloc = x.M_alloc; // MUST CHECK IF REALLY NEEDED
+            }
+            AVL_tree&   operator=(const AVL_tree& x)
+            {
+                if (this != &x)
+                {
+                    clear();
+                    M_impl.comp = x.M_impl.comp;
+                    if (x.M_root())
+                        M_impl.header.parent = copy_tree(x);
+                }
+                return (*this);
+            }
 
             //DESTRUCTOR
             ~AVL_tree() { M_erase(M_begin()); }
@@ -430,7 +467,7 @@ namespace ft
             //MODIFIERS
             pair<iterator, bool>    insert(const value_type& x) { return (insert_unique(x)); }
             
-            iterator                insert(iterator position, const value_type& x) // SHOULD BE CHECKED
+            iterator                insert(iterator position, const value_type& x)
             {
                 (void)position;
                 pair<iterator, bool> z = insert_unique(x);
@@ -446,16 +483,29 @@ namespace ft
 
             void                    erase(iterator position)
             {
-                base_ptr    y = erase_and_rebalance(position.node);
+                if (position == end())
+                    assert(false);
+                base_ptr    y = erase_and_rebalance(position._node);
                 M_drop_node(static_cast<link_type>(y));
                 --M_impl.node_count;
             }
 
-            size_type               erase(const Key& x)
+            void                    erase(const_iterator position)
             {
-                pair<iterator, iterator> p = equal_range(x);
+                if (position == end())
+                    assert(false);
+                base_ptr    y = erase_and_rebalance(position._node);
+                M_drop_node(static_cast<link_type>(y));
+                --M_impl.node_count;
+            }
+
+            size_type               erase_key(const Key& x)
+            {
+                iterator p = find(x);
+                if (p == end())
+                    return (0);
                 size_type old = size();
-                erase(p.first, p.second);
+                erase(p);
                 return (old - size());
             }
 
@@ -470,7 +520,41 @@ namespace ft
                 }
             }
 
-            void                    swap(AVL_tree& x);
+            void                    erase(const_iterator first, const_iterator last)
+            {
+                if (first == begin() && last == end())
+                    clear();
+                else
+                {
+                    while (first != last)
+                        erase(first++);
+                }
+            }
+
+            void                    swap(AVL_tree& x)
+            {
+                if (this == &x)
+                    return ;
+                if (M_root() == 0)
+                {
+                    if (x.M_root())
+                        M_impl.move_data(x.M_impl);
+                }
+                else if (x.M_root() == 0)
+                    x.M_impl.move_data(M_impl);
+                else
+                {
+                    ft::swap(M_root(), x.M_root());
+                    ft::swap(M_leftmost(), x.M_leftmost());
+                    ft::swap(M_rightmost(), x.M_rightmost());
+
+                    M_root()->parent = M_end();
+                    x.M_root()->parent = x.M_end();
+                    ft::swap(M_impl.node_count, x.M_impl.node_count);
+                }
+                ft::swap(M_impl.comp, x.M_impl.comp);
+                ft::swap(M_alloc, x.M_alloc);
+            }
 
             void                    clear()
             {
@@ -487,13 +571,13 @@ namespace ft
                 iterator j = lower_bound(x);
                 // j will be end() if cannot find
                 // key(j) probably less than k
-                return (j == end() || M_impl.comp(x, S_key(j.node)) ? end() : j);
+                return (j == end() || M_impl.comp(x, S_key(j._node)) ? end() : j);
             }
 
             const_iterator                      find(const Key& x) const
             {
                 const_iterator j = lower_bound(x);
-                return (j == end() || M_impl.comp(x, S_key(j.node)) ? end() : j);
+                return (j == end() || M_impl.comp(x, S_key(j._node)) ? end() : j);
             }
 
             iterator                            lower_bound(const Key& k)
@@ -539,7 +623,7 @@ namespace ft
 
                 while (x)
                 {
-                    if (M_impl.comp(S_key(x), k))
+                    if (M_impl.comp(k, S_key(x)))
                     {
                         y = x;
                         x = S_left(x);
@@ -557,7 +641,7 @@ namespace ft
 
                 while (x)
                 {
-                    if (M_impl.comp(S_key(x), k))
+                    if (M_impl.comp(k, S_key(x)))
                     {
                         y = x;
                         x = S_left(x);
@@ -578,6 +662,44 @@ namespace ft
                 return (pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k)));
             }
     };
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator==(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        if (lhs.size() == rhs.size())
+            return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+        return (false);
+    }
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator!=(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        return (!(lhs == rhs));
+    }
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator<(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    }
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator>(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        return (rhs < lhs);
+    }
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator<=(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        return (!(rhs < lhs));
+    }
+
+    template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+    bool operator>=(const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& lhs, const AVL_tree<Key, Value, KeyOfValue, Compare, Alloc>& rhs)
+    {
+        return (!(lhs < rhs));
+    }
 }
 
 #endif

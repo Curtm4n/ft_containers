@@ -6,15 +6,16 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 16:18:40 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/27 20:24:01 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:47:40 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "../../utils/utility.hpp"
 # include "AVL_tree.hpp"
+# include "../../utils/utility.hpp"
+# include "../../utils/algorithms.hpp"
 
 # include <memory>
 # include <cstddef>
@@ -83,9 +84,16 @@ namespace ft
                 insert(first, last);
             }
 
-            map(const map<Key,T,Compare,Allocator>& x);                                                                                             //Copy Constructor
+            map(const map<Key,T,Compare,Allocator>& x) : tree(x.tree)   {}                                                                          //Copy Constructor          //DONE
 
-            map<Key,T,Compare,Allocator>&   operator=(const map<Key,T,Compare,Allocator>& x);                                                       //Assignement operator
+            map<Key,T,Compare,Allocator>&   operator=(const map<Key,T,Compare,Allocator>& x)                                                        //Assignement operator      //DONE
+            {
+                if (this != &x)
+                {
+                    this->tree = x.tree;
+                }
+                return (*this);
+            }
 
             //DESTRUCTOR
             ~map()  {}  //DONE
@@ -116,9 +124,9 @@ namespace ft
             template <class InputIterator>
                 void                insert(InputIterator first, InputIterator last) { tree.insert(first, last); }           //DONE
             void                    erase(iterator position)                        { tree.erase(position); }               //DONE
-            size_type               erase(const key_type& x)                        { return (tree.erase(x)); }             //DONE
+            size_type               erase(const key_type& x)                        { return (tree.erase_key(x)); }         //DONE
             void                    erase(iterator first, iterator last)            { tree.erase(first, last); }            //DONE
-            void                    swap(map<Key,T,Compare,Allocator>&);
+            void                    swap(map<Key,T,Compare,Allocator>& x)           { tree.swap(x.tree); }                  //DONE
             void                    clear()                                         { tree.clear(); }                       //DONE
 
             //OBSERVERS
@@ -135,30 +143,52 @@ namespace ft
             const_iterator                      upper_bound(const key_type& x) const    { return (tree.upper_bound(x)); }                   //DONE
             pair<iterator,iterator>             equal_range(const key_type& x)          { return (tree.equal_range(x)); }                   //DONE
             pair<const_iterator,const_iterator> equal_range(const key_type& x) const    { return (tree.equal_range(x)); }                   //DONE
+
+            //NON MEMBERS OPERATOR OVERLOADS
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator==(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);     //DONE
+
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator<(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);      //DONE
+
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator!=(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);     //DONE
+
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator>(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);      //DONE
+
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator>=(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);     //DONE
+
+            template <class K1, class T1, class C1, class A1>
+            friend bool operator<=(const map<K1, T1, C1, A1>&, const map<K1, T1, C1, A1>&);     //DONE
     };
 
     //RELATIONAL OPERATORS
     template <class Key, class T, class Compare, class Allocator>
-    bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree == y.tree); }
 
     template <class Key, class T, class Compare, class Allocator>
-    bool operator< (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator< (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree < y.tree); }
 
     template <class Key, class T, class Compare, class Allocator>
-    bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree != y.tree); }
 
     template <class Key, class T, class Compare, class Allocator>
-    bool operator> (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator> (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree > y.tree); }
 
     template <class Key, class T, class Compare, class Allocator>
-    bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree >= y.tree); }
 
     template <class Key, class T, class Compare, class Allocator>
-    bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y);
+    bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)   { return(x.tree <= y.tree); }
 
     //SPECIALIZED ALGORITHM:
     template <class Key, class T, class Compare, class Allocator>
-    void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y);
+    void swap(map<Key,T,Compare,Allocator>& x, map<Key,T,Compare,Allocator>& y)
+    {
+        x.swap(y);
+    }
 }
 
 #endif
