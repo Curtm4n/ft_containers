@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:35:49 by cdapurif          #+#    #+#             */
-/*   Updated: 2023/01/04 17:45:33 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:04:28 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,7 @@ namespace ft
                             {
                                 base_ptr a = xParent->left;
                                 if (a->balFactor == 1) // check whether need a double rotation
-                                    rotate_left_right(xParent, M_root()); //GROSSE MODIF ICI !!!
+                                    rotate_left_right(xParent, M_root());
                                 else
                                     rotate_right(xParent, M_root());
                                 x = xParent->parent;
@@ -366,7 +366,7 @@ namespace ft
                             {
                                 base_ptr a = xParent->right;
                                 if (a->balFactor == -1) // check whether need a double rotation
-                                    rotate_right_left(xParent, M_root()); //GROSSE MODIF ICI !!!
+                                    rotate_right_left(xParent, M_root());
                                 else
                                     rotate_left(xParent, M_root());
                                 x = xParent->parent;
@@ -430,7 +430,7 @@ namespace ft
             {
                 if (x.M_root())
                     M_impl.header.parent = copy_tree(x); // WE'LL CREATE A COPY OF ALL NODES STARTING FROM ROOT
-                M_alloc = x.M_alloc; // MUST CHECK IF REALLY NEEDED
+                M_alloc = x.M_alloc;
             }
             AVL_tree&   operator=(const AVL_tree& x)
             {

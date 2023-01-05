@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 14:28:46 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/21 17:29:49 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:01:25 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,24 +121,6 @@ int main(void)
     vector4.push_back(42);
     std::cout << "size and capacity of vector4 after push_back: ";
     std::cout << vector4.size() << " " << vector4.capacity() << std::endl;
-
-    
-    /*std::cout << std::endl << Green << "Tests for push_back method on max_size vector" << Reset << std::endl;
-    std::cout << "max_size for vector4 <int>: " << vector4.max_size() << std::endl;
-    vector4.clear();
-    try
-    {
-        vector4.reserve(vector4.max_size() - 1);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    std::cout << "size and capacity of vector4 before push_back: ";
-    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;
-    vector4.push_back(42);
-    std::cout << "size and capacity of vector4 after push_back: ";
-    std::cout << vector4.size() << " " << vector4.capacity() << std::endl;*/
 
     
     //TEST FOR SPECIALIZATION OF SWAP

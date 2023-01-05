@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:27:03 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/02 15:51:07 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:01:05 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ namespace ft
     template <class InputIterator>
     vector<T, Allocator>::vector(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Allocator& alloc) : _array(0), _size(0), _capacity(0), _alloc(alloc)
     {
-        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element, check tag dispatching)
+        size_type   sz = std::distance(first, last);
 
         if (sz)
         {
@@ -408,7 +408,7 @@ namespace ft
     template <class InputIterator>
     void    vector<T, Allocator>::assign(typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
     {
-        size_type   sz = std::distance(first, last);    //WON'T WORK ON INPUT ITERATORS BUT OK FOR ALL OTHER TYPES (for input iterators, need to be reallocate for every element, check tag dispatching)
+        size_type   sz = std::distance(first, last);
         pointer     tmp;
 
         if (sz > _capacity)

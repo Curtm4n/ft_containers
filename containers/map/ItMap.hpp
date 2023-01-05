@@ -6,7 +6,7 @@
 /*   By: cdapurif <cdapurif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:15:50 by cdapurif          #+#    #+#             */
-/*   Updated: 2022/12/30 16:22:17 by cdapurif         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:07:51 by cdapurif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ namespace ft
         typedef node_base::const_base_ptr   base_ptr;
         typedef const node<Tp>*             link_type;
 
-        ConstItMap() : _node()                           {}
-        ConstItMap(base_ptr x) : _node(x)                {}
-        ConstItMap(const iterator& x) : _node(x._node)    {}
+        ConstItMap() : _node()                          {}
+        ConstItMap(base_ptr x) : _node(x)               {}
+        ConstItMap(const iterator& x) : _node(x._node)  {}
 
         iterator    _const_cast() const { return iterator(const_cast<typename iterator::base_ptr>(this->_node)); }
 
